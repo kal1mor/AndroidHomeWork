@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">AndroidHomeWork</string>
+    <string name="go_to_activity2">Go to activity2</string>
+    <string name="clicked_second_item">Clicked second item</string>
+    <string name="close_app">Close app</string>
+    <string name="bold">bold</string>
+    <string name="italic">italic</string>
+    <string name="first_activity">first activity</string>
+    <string name="sec_activity">second activity</string>
+    <string name="kalimor_production">kalimorProduction</string>
+    <string name="activity2">activity2</string>
 </resources>

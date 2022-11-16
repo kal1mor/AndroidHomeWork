@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+     android:id="@+id/textView"
+     android:title="@string/go_to_activity2" />
+    <item
+        android:id="@+id/clicked_second_item"
+        android:title="@string/clicked_second_item" />
+    <item
+        android:id="@+id/close_app"
+        android:title="@string/close_app" />
+    <item
+        android:id="@+id/go_to_activity2"
+        android:title="@string/activity2" />
+</menu>

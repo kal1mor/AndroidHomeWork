@@ -25,11 +25,21 @@ class MainActivity : AppCompatActivity() {
 
         btnLog.setOnClickListener{
 
-            if(tet_text1.text.toString().isEmpty()){
+            if(tet_text1.text.toString().isEmpty()&&tet_text2.text.toString().isEmpty()){
                 tel1.setErrorIconDrawable(R.drawable.ic_error)
                 tet_text1.error = getString(R.string.email_cant_be_empty)
-            }
-            if (tet_text2.text.toString().isEmpty()){
+                tel2.setErrorIconDrawable(R.drawable.ic_error)
+                tel2.isPasswordVisibilityToggleEnabled = false
+                tet_text2.error = getString(R.string.password_cant_be_empty)
+
+            } else if (tet_text1.text.toString().isEmpty()){
+
+                tel1.setErrorIconDrawable(R.drawable.ic_error)
+                tet_text1.error = getString(R.string.email_cant_be_empty)
+                tel2.isPasswordVisibilityToggleEnabled = true
+
+            }else if(tet_text2.text.toString().isEmpty()){
+
                 tel2.setErrorIconDrawable(R.drawable.ic_error)
                 tel2.isPasswordVisibilityToggleEnabled = false
                 tet_text2.error = getString(R.string.password_cant_be_empty)
@@ -39,7 +49,7 @@ class MainActivity : AppCompatActivity() {
 
                 val dialog = AlertDialog.Builder(this)
                     .setTitle(getString(R.string.information))
-                    .setMessage("${tet_text1.text.toString()} ${tet_text2.text.toString()}")
+                    .setMessage("Login: ${tet_text1.text.toString()} \nPassword: ${tet_text2.text.toString()}")
                     .setCancelable(true)
                     .setPositiveButton(getString(R.string.ok)){ dialog, _ ->
                         dialog.cancel()

@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">AndroidHomeWork</string>
+    <string name="enter_your_password">Enter your password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="enter_your_email">Enter your email</string>
+    <string name="boy">Boy</string>
+    <string name="girl">Girl</string>
+    <string name="email_cant_be_empty">Email cant be empty</string>
+    <string name="password_cant_be_empty">Password cant be empty</string>
 </resources>

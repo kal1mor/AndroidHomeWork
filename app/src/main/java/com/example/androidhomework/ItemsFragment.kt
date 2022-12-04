@@ -5,17 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageSwitcher
 import android.widget.Toast
+import androidx.constraintlayout.utils.widget.ImageFilterButton
+import androidx.constraintlayout.utils.widget.ImageFilterView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidhomework.adapter.ItemsAdapter
 import com.example.androidhomework.listener.ItemsListener
 import com.example.androidhomework.model.ItemsModel
 
-class ItemsFragment : Fragment(), ItemsListener{
+class ItemsFragment : Fragment(), ItemsListener {
 
     private lateinit var itemsAdapter: ItemsAdapter
-
 
 
     override fun onCreateView(
@@ -35,48 +37,76 @@ class ItemsFragment : Fragment(), ItemsListener{
         recyclerView.adapter = itemsAdapter
 
         val listItems = listOf<ItemsModel>(
-            ItemsModel (R.drawable.m4a1,
-                "AK-47",
-                "28.11.2022"),
-            ItemsModel (R.drawable.aug,
+            ItemsModel(
+                R.drawable.m4a1,
+                "m4a1",
+                "28.11.2022"
+            ),
+            ItemsModel(
+                R.drawable.aug,
                 "AUG",
-                "27.11.2022"),
-            ItemsModel (R.drawable.awp,
+                "27.11.2022"
+            ),
+            ItemsModel(
+                R.drawable.awp,
                 "AWP",
-                "26.11.2022"),
-            ItemsModel (R.drawable.p2000,
-                "Deagle",
-                "25.11.2022"),
-            ItemsModel (R.drawable.m4a1,
-                "Famas",
-                "24.11.2022"),
-            ItemsModel (R.drawable.aug,
-                "FiveSeven",
-                "23.11.2022"),
-            ItemsModel (R.drawable.awp,
-                "Glock",
-                "22.11.2022"),
-            ItemsModel (R.drawable.p2000,
-                "M4A1",
-                "21.11.2022"),
-            ItemsModel (R.drawable.m4a1,
-                "M4A4",
-                "20.11.2022"),
-            ItemsModel (R.drawable.aug,
-                "P2000",
-                "19.11.2022"),
-            ItemsModel (R.drawable.awp,
-                ".P250",
-                "18.11.2022"),
-            ItemsModel (R.drawable.p2000,
-                "Sg553",
-                "17.11.2022"),
-            ItemsModel (R.drawable.m4a1,
-                "Tec-9",
-                "16.11.2022"),
-            ItemsModel (R.drawable.aug,
-                "Usp",
-                "15.11.2022"),
+                "26.11.2022"
+            ),
+            ItemsModel(
+                R.drawable.p2000,
+                "p2000",
+                "25.11.2022"
+            ),
+            ItemsModel(
+                R.drawable.m4a1,
+                "m4a1",
+                "24.11.2022"
+            ),
+            ItemsModel(
+                R.drawable.aug,
+                "aug",
+                "23.11.2022"
+            ),
+            ItemsModel(
+                R.drawable.awp,
+                "awp",
+                "22.11.2022"
+            ),
+            ItemsModel(
+                R.drawable.p2000,
+                "p2000",
+                "21.11.2022"
+            ),
+            ItemsModel(
+                R.drawable.m4a1,
+                "m4a1",
+                "20.11.2022"
+            ),
+            ItemsModel(
+                R.drawable.aug,
+                "aug",
+                "19.11.2022"
+            ),
+            ItemsModel(
+                R.drawable.awp,
+                "awp",
+                "18.11.2022"
+            ),
+            ItemsModel(
+                R.drawable.p2000,
+                "p2000",
+                "17.11.2022"
+            ),
+            ItemsModel(
+                R.drawable.m4a1,
+                "m4a1",
+                "16.11.2022"
+            ),
+            ItemsModel(
+                R.drawable.aug,
+                "aug",
+                "15.11.2022"
+            ),
         )
 
         itemsAdapter.submitList(listItems)
@@ -102,7 +132,12 @@ class ItemsFragment : Fragment(), ItemsListener{
         //replace always have addToBackstack to go back, or if we don't have addToBackstack we will not back
         parentFragmentManager.beginTransaction()
             .replace(R.id.activity_container, detailsFragment)
-            .addToBackStack("Details")
+            .addToBackStack(getString(R.string.details))
             .commit()
+    }
+
+    override fun onStarClick() {
+//        val star = view?.findViewById<ImageFilterView>(R.id.star)
+//        star?.setImageResource(R.drawable.starred)
     }
 }

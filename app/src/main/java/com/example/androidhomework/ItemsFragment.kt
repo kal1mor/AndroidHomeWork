@@ -17,6 +17,7 @@ const val KEY_NAME = "name"
 const val KEY_DATE = "date"
 const val KEY_IMAGE = "image"
 const val KEY_IMAGE_VIEW = "imageView"
+const val KEY_IMAGE_VIEW_ClICKED = "ImageView clicked"
 
 class ItemsFragment : Fragment(), ItemsListener {
 

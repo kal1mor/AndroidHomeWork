@@ -95,7 +95,7 @@ class ItemsViewModel: ViewModel() {
     }
 
     fun imageViewClicked() {
-        _message.value = "ImageView clicked"
+        _message.value = KEY_IMAGE_VIEW_ClICKED
     }
 
     fun elementClicked(name: String, date: String, imageView: Int) {

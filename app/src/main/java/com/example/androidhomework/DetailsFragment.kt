@@ -28,9 +28,9 @@ class DetailsFragment : Fragment() {
         val bundle = arguments
 
         bundle?.let { safeBundle ->
-            val name = safeBundle.getString("name")
-            val date = safeBundle.getString("date")
-            val image = safeBundle.getInt("imageVIew")
+            val name = safeBundle.getString(KEY_NAME)
+            val date = safeBundle.getString(KEY_DATE)
+            val image = safeBundle.getInt(KEY_IMAGE_VIEW)
 
             detailsName.text = name
             detailsDate.text = date

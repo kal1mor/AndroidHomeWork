@@ -6,5 +6,4 @@ interface ItemsListener {
 
     fun onElementSelected(name: String, date: String, imageView: Int)
 
-    fun onStarClick()
 }

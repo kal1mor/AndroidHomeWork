@@ -5,20 +5,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageSwitcher
 import android.widget.Toast
-import androidx.constraintlayout.utils.widget.ImageFilterButton
-import androidx.constraintlayout.utils.widget.ImageFilterView
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidhomework.adapter.ItemsAdapter
 import com.example.androidhomework.listener.ItemsListener
-import com.example.androidhomework.model.ItemsModel
+
+
+const val KEY_NAME = "name"
+const val KEY_DATE = "date"
+const val KEY_IMAGE = "image"
+const val KEY_IMAGE_VIEW = "imageView"
 
 class ItemsFragment : Fragment(), ItemsListener {
 
     private lateinit var itemsAdapter: ItemsAdapter
-
+    private val viewModel: ItemsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,108 +39,39 @@ class ItemsFragment : Fragment(), ItemsListener {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = itemsAdapter
 
-        val listItems = listOf<ItemsModel>(
-            ItemsModel(
-                R.drawable.m4a1,
-                "m4a1",
-                "28.11.2022"
-            ),
-            ItemsModel(
-                R.drawable.aug,
-                "AUG",
-                "27.11.2022"
-            ),
-            ItemsModel(
-                R.drawable.awp,
-                "AWP",
-                "26.11.2022"
-            ),
-            ItemsModel(
-                R.drawable.p2000,
-                "p2000",
-                "25.11.2022"
-            ),
-            ItemsModel(
-                R.drawable.m4a1,
-                "m4a1",
-                "24.11.2022"
-            ),
-            ItemsModel(
-                R.drawable.aug,
-                "aug",
-                "23.11.2022"
-            ),
-            ItemsModel(
-                R.drawable.awp,
-                "awp",
-                "22.11.2022"
-            ),
-            ItemsModel(
-                R.drawable.p2000,
-                "p2000",
-                "21.11.2022"
-            ),
-            ItemsModel(
-                R.drawable.m4a1,
-                "m4a1",
-                "20.11.2022"
-            ),
-            ItemsModel(
-                R.drawable.aug,
-                "aug",
-                "19.11.2022"
-            ),
-            ItemsModel(
-                R.drawable.awp,
-                "awp",
-                "18.11.2022"
-            ),
-            ItemsModel(
-                R.drawable.p2000,
-                "p2000",
-                "17.11.2022"
-            ),
-            ItemsModel(
-                R.drawable.m4a1,
-                "m4a1",
-                "16.11.2022"
-            ),
-            ItemsModel(
-                R.drawable.aug,
-                "aug",
-                "15.11.2022"
-            ),
-        )
+        viewModel.getData()
+        viewModel.items.observe(viewLifecycleOwner){ listItems ->
+            itemsAdapter.submitList(listItems)
+        }
 
-        itemsAdapter.submitList(listItems)
+        viewModel.message.observe(viewLifecycleOwner) { msg ->
+            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+        }
 
+        viewModel.bundle.observe(viewLifecycleOwner){ navBundle ->
+            val detailsFragment = DetailsFragment()
+            val bundle = Bundle()
+            bundle.putString(KEY_NAME, navBundle.name)
+            bundle.putString(KEY_DATE, navBundle.date)
+            bundle.putInt(KEY_IMAGE, navBundle.image)
+            detailsFragment.arguments = bundle
+
+            //ADD method we will not use
+            //We will use replace
+            //replace always have addToBackstack to go back, or if we don't have addToBackstack we will not back
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.activity_container, detailsFragment)
+                .addToBackStack("Details")
+                .commit()
+        }
 
     }
 
     override fun onClick() {
-        Toast.makeText(context, "ImageView clicked", Toast.LENGTH_SHORT).show()
+        viewModel.imageViewClicked()
     }
 
     override fun onElementSelected(name: String, date: String, imageView: Int) {
-
-        val detailsFragment = DetailsFragment()
-        val bundle = Bundle()
-        bundle.putString("name", name)
-        bundle.putString("date", date)
-        bundle.putInt("imageVIew", imageView)
-        detailsFragment.arguments = bundle
-
-        //ADD method we will not use
-        //We will use replace
-        //replace always have addToBackstack to go back, or if we don't have addToBackstack we will not back
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.activity_container, detailsFragment)
-            .addToBackStack(getString(R.string.details))
-            .commit()
-    }
-
-    override fun onStarClick() {
-//        val star = view?.findViewById<ImageFilterView>(R.id.star)
-//        star?.setImageResource(R.drawable.starred)
+        viewModel.elementClicked(name, date, imageView)
     }
 }

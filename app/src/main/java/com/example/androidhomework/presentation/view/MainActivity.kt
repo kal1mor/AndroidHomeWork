@@ -1,9 +1,10 @@
-package com.example.androidhomework
+package com.example.androidhomework.presentation.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import com.example.androidhomework.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.getMainId()
         viewModel.main.observe(this, Observer { main ->
             val fragmentTransaction = supportFragmentManager.beginTransaction()
-            fragmentTransaction.add(main, ItemsFragment())
+            fragmentTransaction.add(main, LogInFragment())
             fragmentTransaction.commit()
         })
     }

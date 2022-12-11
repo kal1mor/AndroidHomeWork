@@ -1,24 +1,11 @@
-package com.example.androidhomework
+package com.example.androidhomework.data
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.example.androidhomework.R
+import com.example.androidhomework.domain.ItemsRepository
 import com.example.androidhomework.model.ItemsModel
 
-import kotlin.coroutines.coroutineContext
-
-class ItemsViewModel: ViewModel() {
-
-    private val _items = MutableLiveData<List<ItemsModel>>()
-    val items: LiveData<List<ItemsModel>> = _items
-
-    private val _message = MutableLiveData<String>()
-    val message: LiveData<String> = _message
-
-    private val _bundle = MutableLiveData<NavigateWithBundle>()
-    val bundle: LiveData<NavigateWithBundle> = _bundle
-
-    fun getData(){
+class ItemsRepositoryImpl:ItemsRepository {
+    override fun getData(): List<ItemsModel> {
         val listItems = listOf<ItemsModel>(
             ItemsModel(
                 R.drawable.m4a1,
@@ -91,24 +78,8 @@ class ItemsViewModel: ViewModel() {
                 "15.11.2022"
             )
         )
-        _items.value = listItems
+        return listItems
     }
 
-    fun imageViewClicked() {
-        _message.value = KEY_IMAGE_VIEW_ClICKED
-    }
 
-    fun elementClicked(name: String, date: String, imageView: Int) {
-        _bundle.value = NavigateWithBundle(
-            name = name,
-            date = date,
-            image = imageView
-        )
-    }
 }
-
-data class NavigateWithBundle(
-    val image: Int,
-    val name: String,
-    val date: String
-)

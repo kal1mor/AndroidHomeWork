@@ -1,4 +1,4 @@
-package com.example.androidhomework.listener
+package com.example.androidhomework.presentation.view.adapter.listener
 
 interface ItemsListener {
 

@@ -3,8 +3,9 @@ package com.example.androidhomework.data
 import com.example.androidhomework.R
 import com.example.androidhomework.domain.ItemsRepository
 import com.example.androidhomework.model.ItemsModel
+import javax.inject.Inject
 
-class ItemsRepositoryImpl:ItemsRepository {
+class ItemsRepositoryImpl @Inject constructor():ItemsRepository {
     override fun getData(): List<ItemsModel> {
         val listItems = listOf<ItemsModel>(
             ItemsModel(

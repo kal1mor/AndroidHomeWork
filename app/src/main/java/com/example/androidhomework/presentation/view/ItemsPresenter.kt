@@ -2,10 +2,15 @@ package com.example.androidhomework.presentation.view
 
 import com.example.androidhomework.R
 import com.example.androidhomework.domain.ItemsInteractor
+import javax.inject.Inject
 
-class ItemsPresenter(private val itemsView: ItemsView,
-                     private val itemsInteractor: ItemsInteractor
-) {
+class ItemsPresenter @Inject constructor(private val itemsInteractor: ItemsInteractor) {
+
+    private lateinit var itemsView: ItemsView
+
+    fun setView(context: ItemsView){
+        itemsView = context
+    }
 
     fun getData(){
         val listItems = itemsInteractor.getData()

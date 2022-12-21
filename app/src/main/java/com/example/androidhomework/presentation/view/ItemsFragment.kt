@@ -16,16 +16,23 @@ import com.example.androidhomework.domain.ItemsInteractor
 import com.example.androidhomework.model.ItemsModel
 import com.example.androidhomework.presentation.view.adapter.ItemsAdapter
 import com.example.androidhomework.presentation.view.adapter.listener.ItemsListener
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
-
+@AndroidEntryPoint
 class ItemsFragment : Fragment(), ItemsListener, ItemsView {
+
+    @Inject
+    lateinit var itemsPresenter: ItemsPresenter
+
+    private lateinit var itemsAdapter: ItemsAdapter
 
     private var _viewBinding: FragmentItemsBinding? = null
     private val viewBinding get() = _viewBinding!!
 
-    private lateinit var itemsAdapter: ItemsAdapter
-    private lateinit var itemsPresenter: ItemsPresenter
+
+
 //    private val viewModel: ItemsViewModel by viewModels()
 
     override fun onCreateView(
@@ -40,11 +47,11 @@ class ItemsFragment : Fragment(), ItemsListener, ItemsView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        itemsPresenter = ItemsPresenter(this, ItemsInteractor(ItemsRepositoryImpl()))
+        itemsPresenter.setView(this)
         itemsAdapter = ItemsAdapter(this)
 
         viewBinding.rcView.adapter = itemsAdapter
-
+        viewBinding.rcView.layoutManager = LinearLayoutManager(context)
         itemsPresenter.getData()
 
     }

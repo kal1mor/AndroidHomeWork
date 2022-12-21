@@ -10,6 +10,9 @@ import android.widget.TextView
 import com.example.androidhomework.R
 import com.example.androidhomework.databinding.FragmentDetailsBinding
 import com.example.androidhomework.databinding.FragmentLogInBinding
+import com.example.androidhomework.presentation.view.ItemsFragment.Companion.KEY_DATE
+import com.example.androidhomework.presentation.view.ItemsFragment.Companion.KEY_IMAGE_VIEW
+import com.example.androidhomework.presentation.view.ItemsFragment.Companion.KEY_NAME
 
 class DetailsFragment : Fragment() {
 
@@ -33,9 +36,9 @@ class DetailsFragment : Fragment() {
         val bundle = arguments
 
         bundle?.let { _ ->
-            val name = ItemsFragment.Companion.KEY_NAME
-            val date = ItemsFragment.Companion.KEY_DATE
-            val image = ItemsFragment.Companion.KEY_IMAGE_VIEW.toInt()
+            val name = bundle.getString(KEY_NAME)
+            val date = bundle.getString(KEY_DATE)
+            val image = bundle.getInt(KEY_IMAGE_VIEW)
 
             viewBinding.detailsName.text = name
             viewBinding.detailsDate.text = date

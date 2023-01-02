@@ -9,4 +9,5 @@
     <string name="enter_your_password">Enter your password</string>
     <string name="login">Login</string>
     <string name="fields_is_empty">fields is empty</string>
+    <string name="next_page">next page</string>
 </resources>

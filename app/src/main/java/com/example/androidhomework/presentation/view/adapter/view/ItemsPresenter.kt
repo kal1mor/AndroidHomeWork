@@ -1,7 +1,8 @@
-package com.example.androidhomework.presentation.view
+package com.example.androidhomework.presentation.view.adapter.view
 
 import com.example.androidhomework.R
 import com.example.androidhomework.domain.ItemsInteractor
+import com.example.androidhomework.presentation.view.adapter.view.ItemsView
 import javax.inject.Inject
 
 class ItemsPresenter @Inject constructor(private val itemsInteractor: ItemsInteractor) {

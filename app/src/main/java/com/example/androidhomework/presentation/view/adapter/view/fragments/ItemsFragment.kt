@@ -1,4 +1,4 @@
-package com.example.androidhomework.presentation.view
+package com.example.androidhomework.presentation.view.adapter.view.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,16 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.androidhomework.R
-import com.example.androidhomework.data.ItemsRepositoryImpl
 import com.example.androidhomework.databinding.FragmentItemsBinding
-import com.example.androidhomework.domain.ItemsInteractor
 import com.example.androidhomework.model.ItemsModel
 import com.example.androidhomework.presentation.view.adapter.ItemsAdapter
 import com.example.androidhomework.presentation.view.adapter.listener.ItemsListener
+import com.example.androidhomework.presentation.view.adapter.view.ItemsPresenter
+import com.example.androidhomework.presentation.view.adapter.view.ItemsView
+import com.example.androidhomework.utils.NavigationFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -83,10 +82,7 @@ class ItemsFragment : Fragment(), ItemsListener, ItemsView {
         //ADD method we will not use
         //We will use replace
         //replace always have addToBackstack to go back, or if we don't have addToBackstack we will not back
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.activity_container, detailsFragment)
-            .addToBackStack(getString(R.string.details))
-            .commit()
+        NavigationFragment.fmReplace(parentFragmentManager, detailsFragment, true)
     }
 
     companion object{

@@ -1,4 +1,4 @@
-package com.example.androidhomework
+package com.example.androidhomework.utils
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

@@ -1,18 +1,14 @@
-package com.example.androidhomework.presentation.view
+package com.example.androidhomework.presentation.view.adapter.view.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import com.example.androidhomework.R
 import com.example.androidhomework.databinding.FragmentDetailsBinding
-import com.example.androidhomework.databinding.FragmentLogInBinding
-import com.example.androidhomework.presentation.view.ItemsFragment.Companion.KEY_DATE
-import com.example.androidhomework.presentation.view.ItemsFragment.Companion.KEY_IMAGE_VIEW
-import com.example.androidhomework.presentation.view.ItemsFragment.Companion.KEY_NAME
+import com.example.androidhomework.presentation.view.adapter.view.fragments.ItemsFragment.Companion.KEY_DATE
+import com.example.androidhomework.presentation.view.adapter.view.fragments.ItemsFragment.Companion.KEY_IMAGE_VIEW
+import com.example.androidhomework.presentation.view.adapter.view.fragments.ItemsFragment.Companion.KEY_NAME
 
 class DetailsFragment : Fragment() {
 

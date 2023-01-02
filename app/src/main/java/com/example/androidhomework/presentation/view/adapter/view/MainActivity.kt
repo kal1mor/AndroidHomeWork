@@ -1,10 +1,11 @@
-package com.example.androidhomework.presentation.view
+package com.example.androidhomework.presentation.view.adapter.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.example.androidhomework.R
+import com.example.androidhomework.presentation.view.adapter.view.fragments.LogInFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

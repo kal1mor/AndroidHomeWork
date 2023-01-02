@@ -1,4 +1,4 @@
-package com.example.androidhomework.presentation.view
+package com.example.androidhomework.presentation.view.adapter.view
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

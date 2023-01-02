@@ -1,4 +1,4 @@
-package com.example.androidhomework.presentation.view
+package com.example.androidhomework.presentation.view.adapter.view.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.androidhomework.R
-import com.example.androidhomework.databinding.FragmentItemsBinding
 import com.example.androidhomework.databinding.FragmentLogInBinding
+import com.example.androidhomework.utils.NavigationFragment
 
 class LogInFragment : Fragment() {
 
@@ -33,10 +33,7 @@ class LogInFragment : Fragment() {
 
         viewBinding.btnLogin.setOnClickListener{
             if (viewBinding.tetEmail.text.toString().isNotEmpty() && viewBinding.tetPassword.text.toString().isNotEmpty()) {
-                parentFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.activity_container, ItemsFragment())
-                    .commit()
+                NavigationFragment.fmReplace(parentFragmentManager, OnBoardingFragment(), false)
             } else {
                 Toast.makeText(context, getString(R.string.fields_is_empty), Toast.LENGTH_SHORT).show()
             }

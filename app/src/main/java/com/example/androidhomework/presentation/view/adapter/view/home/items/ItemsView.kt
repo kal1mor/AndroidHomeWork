@@ -1,6 +1,6 @@
-package com.example.androidhomework.presentation.view.adapter.view
+package com.example.androidhomework.presentation.view.adapter.view.home.items
 
-import com.example.androidhomework.model.ItemsModel
+import com.example.androidhomework.domain.model.ItemsModel
 
 interface ItemsView {
 

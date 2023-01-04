@@ -1,12 +1,9 @@
-package com.example.androidhomework.presentation.view.adapter
+package com.example.androidhomework.presentation.view.adapter.view.home.items
 
-import android.widget.TextView
-import androidx.constraintlayout.utils.widget.ImageFilterView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.androidhomework.R
 import com.example.androidhomework.databinding.ItemGunBinding
 import com.example.androidhomework.presentation.view.adapter.listener.ItemsListener
-import com.example.androidhomework.model.ItemsModel
+import com.example.androidhomework.domain.model.ItemsModel
 
 class ItemsViewHolder(
     private val viewBinding: ItemGunBinding,

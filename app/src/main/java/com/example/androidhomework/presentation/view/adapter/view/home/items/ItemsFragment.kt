@@ -1,4 +1,4 @@
-package com.example.androidhomework.presentation.view.adapter.view.fragments
+package com.example.androidhomework.presentation.view.adapter.view.home.items
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,11 +9,9 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.androidhomework.R
 import com.example.androidhomework.databinding.FragmentItemsBinding
-import com.example.androidhomework.model.ItemsModel
-import com.example.androidhomework.presentation.view.adapter.ItemsAdapter
+import com.example.androidhomework.domain.model.ItemsModel
 import com.example.androidhomework.presentation.view.adapter.listener.ItemsListener
-import com.example.androidhomework.presentation.view.adapter.view.ItemsPresenter
-import com.example.androidhomework.presentation.view.adapter.view.ItemsView
+import com.example.androidhomework.presentation.view.adapter.view.home.details.DetailsFragment
 import com.example.androidhomework.utils.NavigationFragment
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

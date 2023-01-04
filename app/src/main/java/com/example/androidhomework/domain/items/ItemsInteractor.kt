@@ -1,6 +1,6 @@
-package com.example.androidhomework.domain
+package com.example.androidhomework.domain.items
 
-import com.example.androidhomework.model.ItemsModel
+import com.example.androidhomework.domain.model.ItemsModel
 import javax.inject.Inject
 
 class ItemsInteractor @Inject constructor(private val itemsRepository: ItemsRepository) {

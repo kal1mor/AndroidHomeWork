@@ -1,10 +1,17 @@
 package com.example.androidhomework.di
 
-import com.example.androidhomework.data.ItemsRepositoryImpl
-import com.example.androidhomework.domain.ItemsRepository
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
+import com.example.androidhomework.data.auth.AuthRepositoryImpl
+import com.example.androidhomework.data.items.ItemsRepositoryImpl
+import com.example.androidhomework.data.sharedPreferences.SharedPreferencesHelper
+import com.example.androidhomework.domain.auth.AuthRepository
+import com.example.androidhomework.domain.items.ItemsRepository
 import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 @Module
@@ -13,4 +20,23 @@ abstract class DataModule {
 
     @Binds
     abstract fun bindItemsRepository(itemsRepositoryImpl: ItemsRepositoryImpl): ItemsRepository
+
+    @Binds
+    abstract fun bindAuthRepository(
+        authRepositoryImpl: AuthRepositoryImpl
+    ): AuthRepository
+
+    companion object{
+
+        private const val SP_KEY = "SP_KEY"
+
+        @Provides
+        fun provideSharedPreferences(
+            @ApplicationContext context: Context
+        ) : SharedPreferencesHelper {
+            return SharedPreferencesHelper(
+                context.getSharedPreferences(SP_KEY, MODE_PRIVATE)
+            )
+        }
+    }
 }

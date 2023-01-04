@@ -1,16 +1,23 @@
-package com.example.androidhomework.presentation.view.adapter.view.fragments
+package com.example.androidhomework.presentation.view.adapter.view.auth.onBoarding
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.androidhomework.R
-import com.example.androidhomework.databinding.FragmentLogInBinding
 import com.example.androidhomework.databinding.FragmentOnBoardingBinding
+import com.example.androidhomework.presentation.view.adapter.view.auth.login.LoginPresenter
+import com.example.androidhomework.presentation.view.adapter.view.home.items.ItemsFragment
 import com.example.androidhomework.utils.NavigationFragment.fmReplace
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class OnBoardingFragment : Fragment() {
+
+@AndroidEntryPoint
+class OnBoardingFragment : Fragment(), OnBoardingView {
+
+    @Inject
+    lateinit var onBoardingPresenter: OnBoardingPresenter
 
     private var _viewBinding: FragmentOnBoardingBinding? = null
     private val viewBinding get() = _viewBinding!!
@@ -26,8 +33,19 @@ class OnBoardingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        onBoardingPresenter.setView(this)
+
         viewBinding.btnGoToItemsFragment.setOnClickListener{
-            fmReplace(parentFragmentManager, ItemsFragment(), false)
+            onBoardingPresenter.viewOnBoarding(KEY)
         }
     }
+
+    override fun userViewOnBoarding() {
+        fmReplace(parentFragmentManager, ItemsFragment(), false)
+    }
+
+    companion object{
+        private const val KEY = "KEY"
+    }
+
 }

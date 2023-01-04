@@ -1,11 +1,11 @@
-package com.example.androidhomework.data
+package com.example.androidhomework.data.items
 
 import com.example.androidhomework.R
-import com.example.androidhomework.domain.ItemsRepository
-import com.example.androidhomework.model.ItemsModel
+import com.example.androidhomework.domain.items.ItemsRepository
+import com.example.androidhomework.domain.model.ItemsModel
 import javax.inject.Inject
 
-class ItemsRepositoryImpl @Inject constructor():ItemsRepository {
+class ItemsRepositoryImpl @Inject constructor(): ItemsRepository {
     override fun getData(): List<ItemsModel> {
         val listItems = listOf<ItemsModel>(
             ItemsModel(

@@ -6,24 +6,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.androidhomework.R
 import com.example.androidhomework.databinding.FragmentItemsBinding
-import com.example.androidhomework.domain.model.ItemsModel
+import com.example.androidhomework.presentation.view.adapter.adapter.ItemsAdapter
 import com.example.androidhomework.presentation.view.adapter.listener.ItemsListener
 import com.example.androidhomework.presentation.view.adapter.view.home.details.DetailsFragment
 import com.example.androidhomework.utils.NavigationFragment
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class ItemsFragment : Fragment(), ItemsListener, ItemsView {
+class ItemsFragment : Fragment(), ItemsListener {
 
-    @Inject
-    lateinit var itemsPresenter: ItemsPresenter
+
 
     private lateinit var itemsAdapter: ItemsAdapter
+    private val viewMOdel: ItemsViewModel by viewModels()
 
     private var _viewBinding: FragmentItemsBinding? = null
     private val viewBinding get() = _viewBinding!!
@@ -35,7 +36,7 @@ class ItemsFragment : Fragment(), ItemsListener, ItemsView {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _viewBinding = FragmentItemsBinding.inflate(inflater)
         return viewBinding.root
@@ -44,43 +45,42 @@ class ItemsFragment : Fragment(), ItemsListener, ItemsView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        itemsPresenter.setView(this)
         itemsAdapter = ItemsAdapter(this)
 
-        viewBinding.rcView.adapter = itemsAdapter
-        viewBinding.rcView.layoutManager = LinearLayoutManager(context)
-        itemsPresenter.getData()
+        val recyclerView = view.findViewById<RecyclerView>(R.id.rcView)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = itemsAdapter
 
+        viewMOdel.getData()
+        viewMOdel.items.observe(viewLifecycleOwner){ listItems ->
+            itemsAdapter.submitList(listItems)
+        }
+
+        viewMOdel.message.observe(viewLifecycleOwner) { msg ->
+            Toast.makeText(context, getString(msg), Toast.LENGTH_SHORT).show()
+        }
+
+        viewMOdel.bundle.observe(viewLifecycleOwner){ navBundle ->
+            if (navBundle != null){
+                val detailsFragment = DetailsFragment()
+                val bundle = Bundle()
+                bundle.putString(KEY_NAME, navBundle.name)
+                bundle.putString(KEY_DATE, navBundle.date)
+                bundle.putInt(KEY_IMAGE_VIEW, navBundle.image)
+                detailsFragment.arguments = bundle
+
+                NavigationFragment.fmReplace(parentFragmentManager, detailsFragment, true)
+                viewMOdel.userNavigated()
+            }
+        }
     }
 
     override fun onClick() {
-        itemsPresenter.imageViewCLicked()
+        viewMOdel.imageViewClicked()
     }
 
     override fun onElementSelected(name: String, date: String, imageView: Int) {
-        itemsPresenter.elementSelected(name, date, imageView)
-    }
-
-    override fun dataReceived(list: List<ItemsModel>) {
-        itemsAdapter.submitList(list)
-    }
-
-    override fun imageViewCLicked(msg: Int) {
-        Toast.makeText(context, getString(R.string.image_view_clicked), Toast.LENGTH_SHORT).show()
-    }
-
-    override fun goToDetails(name: String, date: String, imageView: Int) {
-        val detailsFragment = DetailsFragment()
-        val bundle = Bundle()
-        bundle.putString(KEY_NAME, name)
-        bundle.putString(KEY_DATE, date)
-        bundle.putInt(KEY_IMAGE_VIEW, imageView)
-        detailsFragment.arguments = bundle
-
-        //ADD method we will not use
-        //We will use replace
-        //replace always have addToBackstack to go back, or if we don't have addToBackstack we will not back
-        NavigationFragment.fmReplace(parentFragmentManager, detailsFragment, true)
+        viewMOdel.elementClicked(name, date, imageView)
     }
 
     companion object{

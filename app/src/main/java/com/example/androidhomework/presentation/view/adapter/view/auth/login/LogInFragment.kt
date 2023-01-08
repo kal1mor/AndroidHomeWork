@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import com.example.androidhomework.R
 import com.example.androidhomework.databinding.FragmentLogInBinding
 import com.example.androidhomework.presentation.view.adapter.view.auth.onBoarding.OnBoardingFragment
@@ -16,10 +17,9 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class LogInFragment : Fragment(), LoginView {
+class LogInFragment : Fragment() {
 
-    @Inject
-    lateinit var loginPresenter: LoginPresenter
+    private val viewModel : LoginViewModel by viewModels()
 
     private var _viewBinding: FragmentLogInBinding? = null
     private val viewBinding get() = _viewBinding!!
@@ -40,26 +40,28 @@ class LogInFragment : Fragment(), LoginView {
 
         super.onViewCreated(view, savedInstanceState)
 
-        loginPresenter.setView(this)
+
 
         viewBinding.btnLogin.setOnClickListener{
-            loginPresenter.loginUser(
+            viewModel.loginUser(
                 viewBinding.tetEmail.text.toString(),
                 viewBinding.tetPassword.text.toString()
             )
         }
-    }
 
-    override fun userLoggedIn(userViewOnBoarding: Boolean) {
-        if (viewBinding.tetEmail.text.toString().isNotEmpty() && viewBinding.tetPassword.text.toString().isNotEmpty()) {
-            if(!userViewOnBoarding){
-            NavigationFragment.fmReplace(parentFragmentManager, OnBoardingFragment(), false)
-            }else {
-                NavigationFragment.fmReplace(parentFragmentManager, ItemsFragment(), false)
+        viewModel.nav.observe(viewLifecycleOwner){
+            if (viewBinding.tetEmail.text.toString().isNotEmpty() && viewBinding.tetPassword.text.toString().isNotEmpty()) {
+                if(viewModel.userViewOnBoarding.value == true){
+                    NavigationFragment.fmReplace(parentFragmentManager, ItemsFragment(), false)
+                }else {
+                    NavigationFragment.fmReplace(parentFragmentManager, OnBoardingFragment(), false)
+                }
+            } else {
+                Toast.makeText(context, getString(R.string.fields_is_empty), Toast.LENGTH_SHORT).show()
             }
-        } else {
-            Toast.makeText(context, getString(R.string.fields_is_empty), Toast.LENGTH_SHORT).show()
         }
     }
+
+
 
 }

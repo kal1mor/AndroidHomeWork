@@ -1,4 +1,4 @@
-package com.example.androidhomework.presentation.view.adapter.view.home.items
+package com.example.androidhomework.presentation.view.adapter.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -19,7 +19,6 @@ class ItemsAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemsViewHolder {
         val viewBinding = ItemGunBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        // val view = LayoutInflater.from(parent.context).inflate(R.layout.item_fruit, parent, false)
         return ItemsViewHolder(viewBinding, itemsListener)
     }
 

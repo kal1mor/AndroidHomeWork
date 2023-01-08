@@ -5,27 +5,26 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.example.androidhomework.databinding.FragmentOnBoardingBinding
-import com.example.androidhomework.presentation.view.adapter.view.auth.login.LoginPresenter
 import com.example.androidhomework.presentation.view.adapter.view.home.items.ItemsFragment
 import com.example.androidhomework.utils.NavigationFragment.fmReplace
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class OnBoardingFragment : Fragment(), OnBoardingView {
+class OnBoardingFragment : Fragment() {
 
-    @Inject
-    lateinit var onBoardingPresenter: OnBoardingPresenter
+
+    private val viewModel: OnBoardingViewModel by viewModels()
 
     private var _viewBinding: FragmentOnBoardingBinding? = null
-    private val viewBinding get() = _viewBinding!!
+    private val viewBinding: FragmentOnBoardingBinding get() = _viewBinding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _viewBinding = FragmentOnBoardingBinding.inflate(inflater)
         return viewBinding.root
     }
@@ -33,18 +32,22 @@ class OnBoardingFragment : Fragment(), OnBoardingView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        onBoardingPresenter.setView(this)
 
-        viewBinding.btnGoToItemsFragment.setOnClickListener{
-            onBoardingPresenter.viewOnBoarding(KEY)
+
+
+        viewBinding.btnGoToItemsFragment.setOnClickListener {
+            viewModel.viewOnBoarding(KEY)
+        }
+
+        viewModel.nav.observe(viewLifecycleOwner) {
+            if (it != null) {
+                fmReplace(parentFragmentManager, ItemsFragment(), false)
+                viewModel.finishPerformed()
+            }
         }
     }
 
-    override fun userViewOnBoarding() {
-        fmReplace(parentFragmentManager, ItemsFragment(), false)
-    }
-
-    companion object{
+    companion object {
         private const val KEY = "KEY"
     }
 

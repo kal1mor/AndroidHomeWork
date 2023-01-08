@@ -1,4 +1,4 @@
-package com.example.androidhomework.presentation.view.adapter.view.home.items
+package com.example.androidhomework.presentation.view.adapter.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidhomework.databinding.ItemGunBinding

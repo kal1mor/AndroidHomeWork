@@ -5,8 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.fragment.app.viewModels
+import com.example.androidhomework.R
 import com.example.androidhomework.databinding.FragmentDetailsBinding
 import com.example.androidhomework.presentation.view.adapter.view.auth.login.LogInFragment
+import com.example.androidhomework.presentation.view.adapter.view.home.items.ItemsFragment
 import com.example.androidhomework.presentation.view.adapter.view.home.items.ItemsFragment.Companion.KEY_DATE
 import com.example.androidhomework.presentation.view.adapter.view.home.items.ItemsFragment.Companion.KEY_IMAGE_VIEW
 import com.example.androidhomework.presentation.view.adapter.view.home.items.ItemsFragment.Companion.KEY_NAME
@@ -15,10 +20,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DetailsFragment : Fragment(), DetailsView {
+class DetailsFragment : Fragment() {
 
-    @Inject
-    lateinit var detailsPresenter: DetailsPresenter
+    private val viewModel: DetailsViewModel by viewModels()
 
     private var _viewBinding: FragmentDetailsBinding? = null
     private val viewBinding get() = _viewBinding!!
@@ -35,31 +39,29 @@ class DetailsFragment : Fragment(), DetailsView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        detailsPresenter.setView(this)
+        val detailsName = view.findViewById<TextView>(R.id.detailsName)
+        val detailsDate = view.findViewById<TextView>(R.id.detailsDate)
+        val detailsImage = view.findViewById<ImageView>(R.id.detailsImage)
 
         val bundle = arguments
 
-        bundle?.let { _ ->
-            detailsPresenter.getDetails(
-                bundle.getString(KEY_NAME),
-                bundle.getString(KEY_DATE),
-                bundle.getInt(KEY_IMAGE_VIEW)
-            )
+        bundle?.let { safeBundle ->
+            val name = safeBundle.getString(KEY_NAME)
+            val date = safeBundle.getString(KEY_DATE) //ItemsFragment.Companion - отображает от куда взята (из какого фрагмента) константа
+            val image = safeBundle.getInt(KEY_IMAGE_VIEW)
+
+            detailsName.text = name
+            detailsDate.text = date
+            detailsImage.setBackgroundResource(image)
         }
 
-        viewBinding.btnLogout.setOnClickListener{
-            detailsPresenter.logoutUser()
+        viewBinding.btnLogout.setOnClickListener {
+            viewModel.logoutUser()
         }
-    }
 
-    override fun userLoggedOut() {
-        fmReplace(parentFragmentManager,LogInFragment(),false)
-    }
+        viewModel.nav.observe(viewLifecycleOwner) {
+            fmReplace(parentFragmentManager, LogInFragment(), false)
+        }
 
-    override fun displayDetails(name: String, date: String, image: Int) {
-        viewBinding.detailsName.text = name
-        viewBinding.detailsDate.text = date
-        viewBinding.detailsImage.setBackgroundResource(image)
     }
-
 }

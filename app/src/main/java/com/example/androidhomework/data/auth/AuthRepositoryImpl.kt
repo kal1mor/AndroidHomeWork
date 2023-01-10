@@ -1,5 +1,6 @@
 package com.example.androidhomework.data.auth
 
+import android.util.Log
 import com.example.androidhomework.data.sharedPreferences.SharedPreferencesHelper
 import com.example.androidhomework.domain.auth.AuthRepository
 import com.example.androidhomework.domain.model.OnBoardingModel

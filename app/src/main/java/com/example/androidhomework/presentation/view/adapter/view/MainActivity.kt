@@ -26,33 +26,24 @@ class MainActivity : AppCompatActivity() {
 
 
         viewModel.checkUserExist()
-//        viewModel.checkUserViewOnBoarding()
+        viewModel.checkUserViewOnBoarding()
 
         viewModel.userExist.observe(this) {
             val fragmentTransaction = supportFragmentManager.beginTransaction()
             fragmentTransaction.add(
                 R.id.activity_container,
-               if (it && viewModel.userViewOnBoarding.value == true){
-                   ItemsFragment()
-               } else if (it && viewModel.userViewOnBoarding.value == false) {
-                   OnBoardingFragment()
-               } else {
-                   LogInFragment()
-               }
+                when (it) {
+                    true -> {
+                        if (viewModel.userViewOnBoarding.value == true) {
+                            ItemsFragment()
+                        } else {
+                            OnBoardingFragment()
+                        }
+                    }
+                    false -> LogInFragment()
+                }
             )
             fragmentTransaction.commit()
         }
-
-//        viewModel.userViewOnBoarding.observe(this){
-//            val fragmentTransaction = supportFragmentManager.beginTransaction()
-//            fragmentTransaction.add(
-//                R.id.activity_container,
-//                when(it){
-//                    true -> OnBoardingFragment()
-//                    false -> ItemsFragment()
-//                }
-//            )
-//            fragmentTransaction.commit()
-//        }
     }
 }

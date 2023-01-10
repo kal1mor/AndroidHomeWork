@@ -51,10 +51,16 @@ class LogInFragment : Fragment() {
 
         viewModel.nav.observe(viewLifecycleOwner){
             if (viewBinding.tetEmail.text.toString().isNotEmpty() && viewBinding.tetPassword.text.toString().isNotEmpty()) {
-                if(viewModel.userViewOnBoarding.value == true){
-                    NavigationFragment.fmReplace(parentFragmentManager, ItemsFragment(), false)
-                }else {
-                    NavigationFragment.fmReplace(parentFragmentManager, OnBoardingFragment(), false)
+                viewModel.userViewOnBoarding.observe(viewLifecycleOwner) {
+                    if (viewModel.userViewOnBoarding.value == true) {
+                        NavigationFragment.fmReplace(parentFragmentManager, ItemsFragment(), false)
+                    } else {
+                        NavigationFragment.fmReplace(
+                            parentFragmentManager,
+                            OnBoardingFragment(),
+                            false
+                        )
+                    }
                 }
             } else {
                 Toast.makeText(context, getString(R.string.fields_is_empty), Toast.LENGTH_SHORT).show()

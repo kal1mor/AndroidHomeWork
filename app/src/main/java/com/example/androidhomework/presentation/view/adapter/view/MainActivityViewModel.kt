@@ -20,7 +20,6 @@ class MainActivityViewModel @Inject constructor(
 
     fun checkUserExist(){
         _userExist.value = authInteractor.cheackUserExist()
-        _userExist.value = authInteractor.checkOnBoardingView()
     }
 
     fun checkUserViewOnBoarding(){

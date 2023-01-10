@@ -37,14 +37,11 @@ class OnBoardingFragment : Fragment() {
 
         viewBinding.btnGoToItemsFragment.setOnClickListener {
             viewModel.viewOnBoarding(KEY)
+                    fmReplace(parentFragmentManager, ItemsFragment(), false)
+                    viewModel.finishPerformed()
         }
 
-        viewModel.nav.observe(viewLifecycleOwner) {
-            if (it != null) {
-                fmReplace(parentFragmentManager, ItemsFragment(), false)
-                viewModel.finishPerformed()
-            }
-        }
+
     }
 
     companion object {

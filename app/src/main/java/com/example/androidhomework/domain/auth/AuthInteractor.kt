@@ -7,31 +7,31 @@ import javax.inject.Inject
 class AuthInteractor @Inject constructor(
     private val authRepository: AuthRepository) {
 
-    fun loginUser (userName: String, userPassword: String){
+    suspend fun loginUser (userName: String, userPassword: String){
         authRepository.loginUser(userName,userPassword)
     }
 
-    fun getUserCreds(): UserModel{
+    suspend fun getUserCreds(): UserModel{
         return authRepository.showUserCreds()
     }
 
-    fun cheackUserExist(): Boolean {
+    suspend fun cheackUserExist(): Boolean {
         return authRepository.doesUserExist()
     }
 
-    fun logoutUser(){
+    suspend fun logoutUser(){
         return authRepository.userLogout()
     }
 
-    fun viewOnBoarding (key: String){
+    suspend fun viewOnBoarding (key: String){
         authRepository.viewOnBoarding(key)
     }
 
-    fun getOnBoardingCreds(): OnBoardingModel{
+    suspend fun getOnBoardingCreds(): OnBoardingModel{
         return authRepository.showOnBoardingCreds()
     }
 
-    fun checkOnBoardingView(): Boolean{
+    suspend fun checkOnBoardingView(): Boolean{
         return  authRepository.doesUserViewOnBoarding()
     }
 

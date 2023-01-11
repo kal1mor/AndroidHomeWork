@@ -5,19 +5,19 @@ import com.example.androidhomework.domain.model.UserModel
 
 interface AuthRepository {
 
-    fun loginUser(userName: String, userPassword: String)
+    suspend fun loginUser(userName: String, userPassword: String)
 
-    fun showUserCreds(): UserModel
+    suspend fun showUserCreds(): UserModel
 
-    fun doesUserExist(): Boolean
+    suspend fun doesUserExist(): Boolean
 
-    fun userLogout()
+    suspend fun userLogout()
 
-    fun viewOnBoarding(key: String)
+    suspend fun viewOnBoarding(key: String)
 
-    fun showOnBoardingCreds(): OnBoardingModel
+    suspend fun showOnBoardingCreds(): OnBoardingModel
 
-    fun doesUserViewOnBoarding(): Boolean
+    suspend fun doesUserViewOnBoarding(): Boolean
 
 
 }

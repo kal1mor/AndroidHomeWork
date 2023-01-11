@@ -1,11 +1,13 @@
 package com.example.androidhomework.presentation.view.adapter.view.home.items
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.androidhomework.R
 import com.example.androidhomework.databinding.FragmentItemsBinding
@@ -14,6 +16,7 @@ import com.example.androidhomework.presentation.view.adapter.listener.ItemsListe
 import com.example.androidhomework.presentation.view.adapter.view.home.details.DetailsFragment
 import com.example.androidhomework.utils.NavigationFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -27,7 +30,6 @@ class ItemsFragment : Fragment(), ItemsListener, ItemsView {
 
     private var _viewBinding: FragmentItemsBinding? = null
     private val viewBinding get() = _viewBinding!!
-
 
 
 //    private val viewModel: ItemsViewModel by viewModels()
@@ -49,6 +51,7 @@ class ItemsFragment : Fragment(), ItemsListener, ItemsView {
 
         viewBinding.rcView.adapter = itemsAdapter
         viewBinding.rcView.layoutManager = LinearLayoutManager(context)
+
         itemsPresenter.getData()
 
     }
@@ -83,7 +86,7 @@ class ItemsFragment : Fragment(), ItemsListener, ItemsView {
         NavigationFragment.fmReplace(parentFragmentManager, detailsFragment, true)
     }
 
-    companion object{
+    companion object {
         const val KEY_NAME = "name"
         const val KEY_DATE = "date"
         const val KEY_IMAGE_VIEW = "imageView"

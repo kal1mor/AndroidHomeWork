@@ -2,13 +2,16 @@ package com.example.androidhomework.presentation.view.adapter.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
+import androidx.lifecycle.lifecycleScope
 import com.example.androidhomework.R
 import com.example.androidhomework.databinding.ActivityMainBinding
 import com.example.androidhomework.presentation.view.adapter.view.auth.login.LogInFragment
 import com.example.androidhomework.presentation.view.adapter.view.auth.onBoarding.OnBoardingFragment
 import com.example.androidhomework.presentation.view.adapter.view.home.items.ItemsFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -36,10 +39,11 @@ class MainActivity : AppCompatActivity(), MainView {
 
     override fun userExistsResult(userExists: Boolean, userViewOnBoarding: Boolean) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.add(R.id.activity_container,
-            if (userExists && userViewOnBoarding){
+        fragmentTransaction.add(
+            R.id.activity_container,
+            if (userExists && userViewOnBoarding) {
                 ItemsFragment()
-            } else if (userExists && !userViewOnBoarding){
+            } else if (userExists && !userViewOnBoarding) {
                 OnBoardingFragment()
             } else {
                 LogInFragment()

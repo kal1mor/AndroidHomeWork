@@ -1,17 +1,20 @@
 package com.example.androidhomework.presentation.view.adapter.view.auth.login
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.example.androidhomework.R
 import com.example.androidhomework.databinding.FragmentLogInBinding
 import com.example.androidhomework.presentation.view.adapter.view.auth.onBoarding.OnBoardingFragment
 import com.example.androidhomework.presentation.view.adapter.view.home.items.ItemsFragment
 import com.example.androidhomework.utils.NavigationFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -36,13 +39,14 @@ class LogInFragment : Fragment(), LoginView {
 
     override fun onViewCreated(
         view: View,
-        savedInstanceState: Bundle?) {
+        savedInstanceState: Bundle?
+    ) {
 
         super.onViewCreated(view, savedInstanceState)
 
         loginPresenter.setView(this)
 
-        viewBinding.btnLogin.setOnClickListener{
+        viewBinding.btnLogin.setOnClickListener {
             loginPresenter.loginUser(
                 viewBinding.tetEmail.text.toString(),
                 viewBinding.tetPassword.text.toString()
@@ -51,10 +55,12 @@ class LogInFragment : Fragment(), LoginView {
     }
 
     override fun userLoggedIn(userViewOnBoarding: Boolean) {
-        if (viewBinding.tetEmail.text.toString().isNotEmpty() && viewBinding.tetPassword.text.toString().isNotEmpty()) {
-            if(!userViewOnBoarding){
-            NavigationFragment.fmReplace(parentFragmentManager, OnBoardingFragment(), false)
-            }else {
+        if (viewBinding.tetEmail.text.toString()
+                .isNotEmpty() && viewBinding.tetPassword.text.toString().isNotEmpty()
+        ) {
+            if (!userViewOnBoarding) {
+                NavigationFragment.fmReplace(parentFragmentManager, OnBoardingFragment(), false)
+            } else {
                 NavigationFragment.fmReplace(parentFragmentManager, ItemsFragment(), false)
             }
         } else {

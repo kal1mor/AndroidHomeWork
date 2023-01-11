@@ -5,39 +5,53 @@ import com.example.androidhomework.data.sharedPreferences.SharedPreferencesHelpe
 import com.example.androidhomework.domain.auth.AuthRepository
 import com.example.androidhomework.domain.model.OnBoardingModel
 import com.example.androidhomework.domain.model.UserModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
     private val sharedPreferencesHelper: SharedPreferencesHelper
 ) : AuthRepository {
 
-    override fun loginUser(userName: String, userPassword: String) {
-        sharedPreferencesHelper.saveUserName(userName)
-        sharedPreferencesHelper.saveUserPassword(userPassword)
+    override suspend fun loginUser(userName: String, userPassword: String) {
+        withContext(Dispatchers.IO) {
+            sharedPreferencesHelper.saveUserName(userName)
+            sharedPreferencesHelper.saveUserPassword(userPassword)
+        }
     }
 
-    override fun showUserCreds(): UserModel {
-        return sharedPreferencesHelper.getUserCreds()
+    override suspend fun showUserCreds(): UserModel {
+        return withContext(Dispatchers.IO) {
+            sharedPreferencesHelper.getUserCreds()
+        }
     }
 
-    override fun doesUserExist(): Boolean {
-        return sharedPreferencesHelper.checkUserExist()
+    override suspend fun doesUserExist(): Boolean {
+        return withContext(Dispatchers.IO){
+            sharedPreferencesHelper.checkUserExist()
+        }
     }
 
-    override fun userLogout() {
+    override suspend fun userLogout() {
         sharedPreferencesHelper.removeUser()
     }
 
-    override fun viewOnBoarding(key: String) {
-        sharedPreferencesHelper.saveKeyOnBoarding(key)
+    override suspend fun viewOnBoarding(key: String) {
+        withContext(Dispatchers.IO) {
+            sharedPreferencesHelper.saveKeyOnBoarding(key)
+        }
     }
 
-    override fun showOnBoardingCreds(): OnBoardingModel {
-        return sharedPreferencesHelper.getOnBoardingCreds()
+    override suspend fun showOnBoardingCreds(): OnBoardingModel {
+        return withContext(Dispatchers.IO){
+            sharedPreferencesHelper.getOnBoardingCreds()
+        }
     }
 
-    override fun doesUserViewOnBoarding(): Boolean {
-        return sharedPreferencesHelper.checkOnBoardingView()
+    override suspend fun doesUserViewOnBoarding(): Boolean {
+        return withContext(Dispatchers.IO){
+            sharedPreferencesHelper.checkOnBoardingView()
+        }
     }
 
 

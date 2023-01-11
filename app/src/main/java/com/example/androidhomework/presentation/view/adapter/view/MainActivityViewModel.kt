@@ -25,7 +25,7 @@ class MainActivityViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _userExist.value = authInteractor.cheackUserExist()
-            }catch (e: Exception){
+            } catch (e: Exception) {
                 Log.w("exception", "loginUser Failed")
             }
 
@@ -33,12 +33,13 @@ class MainActivityViewModel @Inject constructor(
     }
 
     fun checkUserViewOnBoarding() {
+
         viewModelScope.launch {
             try {
-            _userViewOnBoarding.value = authInteractor.checkOnBoardingView()
-        }catch (e: Exception){
+                _userViewOnBoarding.value = authInteractor.checkOnBoardingView()
+            } catch (e: Exception) {
                 Log.w("exception", "User do not view OnBoarding")
-        }
+            }
         }
     }
 }

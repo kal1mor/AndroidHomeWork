@@ -14,6 +14,7 @@ import com.example.androidhomework.databinding.FragmentItemsBinding
 import com.example.androidhomework.presentation.view.adapter.adapter.ItemsAdapter
 import com.example.androidhomework.presentation.view.adapter.listener.ItemsListener
 import com.example.androidhomework.presentation.view.adapter.view.home.details.DetailsFragment
+import com.example.androidhomework.utils.NavHelper.navigateWithBundle
 import com.example.androidhomework.utils.NavigationFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -69,7 +70,7 @@ class ItemsFragment : Fragment(), ItemsListener {
                 bundle.putInt(KEY_IMAGE_VIEW, navBundle.image)
                 detailsFragment.arguments = bundle
 
-                NavigationFragment.fmReplace(parentFragmentManager, detailsFragment, true)
+                navigateWithBundle(navBundle.destinationId, bundle)
                 viewMOdel.userNavigated()
             }
         }

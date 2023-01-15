@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.androidhomework.R
 import com.example.androidhomework.domain.auth.AuthInteractor
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,8 +19,11 @@ class LoginViewModel @Inject constructor(
     private val _nav = MutableLiveData<Unit?>()
     val nav: LiveData<Unit?> get() = _nav
 
-    private val _userViewOnBoarding = MutableLiveData<Boolean>()
-    val userViewOnBoarding: LiveData<Boolean?> get() = _userViewOnBoarding
+    private val _userViewOnBoarding = MutableLiveData<Int?>()
+    val userViewOnBoarding: LiveData<Int?> get() = _userViewOnBoarding
+
+    private val _key = MutableLiveData<Int>()
+    val key: LiveData<Int?> get() = _key
 
 
     fun loginUser(userName: String, userPassword: String) {
@@ -29,10 +32,25 @@ class LoginViewModel @Inject constructor(
                 val doesUserViewOnBoarding = authInteractor.checkOnBoardingView()
                 authInteractor.loginUser(userName, userPassword)
                 _nav.value = Unit
-                _userViewOnBoarding.value = doesUserViewOnBoarding
-            }catch (e: Exception){}
-            Log.w("exception", " user not logged")
+                when(doesUserViewOnBoarding) {
+                    true -> {
+                        _userViewOnBoarding.value = R.navigation.main_graph
+                        _key.value = 1
+                    }
+                    false -> {
+                        _userViewOnBoarding.value = R.id.action_logInFragment_to_onBoardingFragment
+                        _key.value = 2
+                    }
+                }
+            }catch (e: Exception){
+                Log.w("exception", " user not logged")
+            }
+
         }
 
+    }
+
+    fun userNavigated(){
+        _nav.value = null
     }
 }

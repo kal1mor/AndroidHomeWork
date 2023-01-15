@@ -56,7 +56,8 @@ class ItemsViewModel @Inject constructor(
                 _bundle.value = NavigateWithBundle(
                     name = name,
                     date = date,
-                    image = imageView
+                    image = imageView,
+                    destinationId = R.id.action_itemsFragment_to_detailsFragment
                 )
             } catch (e: Exception) {
                 Log.w("exception", "element not clicked")
@@ -78,5 +79,6 @@ class ItemsViewModel @Inject constructor(
 data class NavigateWithBundle(
     val image: Int,
     val name: String,
-    val date: String
+    val date: String,
+    val destinationId: Int,
 )

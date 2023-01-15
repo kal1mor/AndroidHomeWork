@@ -9,17 +9,16 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.example.androidhomework.R
 import com.example.androidhomework.databinding.FragmentLogInBinding
-import com.example.androidhomework.presentation.view.adapter.view.auth.onBoarding.OnBoardingFragment
-import com.example.androidhomework.presentation.view.adapter.view.home.items.ItemsFragment
-import com.example.androidhomework.utils.NavigationFragment
+import com.example.androidhomework.utils.NavHelper.navigate
+import com.example.androidhomework.utils.NavHelper.navigateWithDeletedBackStack
+import com.example.androidhomework.utils.NavHelper.replaceGraph
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class LogInFragment : Fragment() {
 
-    private val viewModel : LoginViewModel by viewModels()
+    private val viewModel: LoginViewModel by viewModels()
 
     private var _viewBinding: FragmentLogInBinding? = null
     private val viewBinding get() = _viewBinding!!
@@ -36,38 +35,36 @@ class LogInFragment : Fragment() {
 
     override fun onViewCreated(
         view: View,
-        savedInstanceState: Bundle?) {
+        savedInstanceState: Bundle?
+    ) {
 
         super.onViewCreated(view, savedInstanceState)
 
 
 
-        viewBinding.btnLogin.setOnClickListener{
+        viewBinding.btnLogin.setOnClickListener {
             viewModel.loginUser(
                 viewBinding.tetEmail.text.toString(),
                 viewBinding.tetPassword.text.toString()
             )
         }
 
-        viewModel.nav.observe(viewLifecycleOwner){
-            if (viewBinding.tetEmail.text.toString().isNotEmpty() && viewBinding.tetPassword.text.toString().isNotEmpty()) {
-                viewModel.userViewOnBoarding.observe(viewLifecycleOwner) {
-                    if (viewModel.userViewOnBoarding.value == true) {
-                        NavigationFragment.fmReplace(parentFragmentManager, ItemsFragment(), false)
-                    } else {
-                        NavigationFragment.fmReplace(
-                            parentFragmentManager,
-                            OnBoardingFragment(),
-                            false
-                        )
+        viewModel.nav.observe(viewLifecycleOwner) {
+            if (it != null) {
+                viewModel.key.observe(viewLifecycleOwner) {
+                    if (it == 1) {
+                        viewModel.userViewOnBoarding.observe(viewLifecycleOwner) {
+                            replaceGraph(it!!)
+                        }
+                    }else if (it == 2){
+                            viewModel.userViewOnBoarding.observe(viewLifecycleOwner) {
+                                navigate(it!!)
+                            }
+                        }
                     }
-                }
-            } else {
+                } else {
                 Toast.makeText(context, getString(R.string.fields_is_empty), Toast.LENGTH_SHORT).show()
             }
         }
     }
-
-
-
 }

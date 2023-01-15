@@ -2,8 +2,12 @@ package com.example.androidhomework.presentation.view.adapter.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import androidx.activity.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import com.example.androidhomework.R
 import com.example.androidhomework.databinding.ActivityMainBinding
 import com.example.androidhomework.presentation.view.adapter.view.auth.login.LogInFragment
@@ -18,6 +22,8 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainActivityViewModel by viewModels()
 
+    private lateinit var navController: NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
@@ -26,24 +32,41 @@ class MainActivity : AppCompatActivity() {
 
 
         viewModel.checkUserExist()
-        viewModel.checkUserViewOnBoarding()
 
-        viewModel.userExist.observe(this) {
-            val fragmentTransaction = supportFragmentManager.beginTransaction()
-            fragmentTransaction.add(
-                R.id.activity_container,
-                when (it) {
-                    true -> {
-                        if (viewModel.userViewOnBoarding.value == true) {
-                            ItemsFragment()
-                        } else {
-                            OnBoardingFragment()
+
+
+        val navHostFragment = supportFragmentManager.findFragmentById(
+            R.id.activity_container
+        ) as NavHostFragment
+
+        navController = navHostFragment.navController
+        Log.w("5", "5")
+        viewModel.userViewOnBoarding.observe(this) {
+            Log.w("4", "4")
+            when (it) {
+                true -> {
+                    Log.w("4", "4")
+                    viewModel.key.observe(this) {
+                        if (it == 1) {
+                            Log.w("1", "1")
+                            viewModel.userExist.observe(this) {
+                                navController.setGraph(it!!)
+                            }
+                        } else if (it == 2 || it == 3) {
+                            Log.w("2", "2")
+                            viewModel.userExist.observe(this) {
+                                navController.navigate(it!!)
+                            }
                         }
                     }
-                    false -> LogInFragment()
                 }
-            )
-            fragmentTransaction.commit()
+                false -> {
+                    Log.w("3", "3")
+                    viewModel.userExist.observe(this) {
+                        navController.setGraph(it!!)
+                    }
+                }
+            }
         }
     }
 }

@@ -6,8 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import com.example.androidhomework.R
 import com.example.androidhomework.databinding.FragmentOnBoardingBinding
-import com.example.androidhomework.presentation.view.adapter.view.home.items.ItemsFragment
+import com.example.androidhomework.utils.NavHelper.replaceGraph
 import com.example.androidhomework.utils.NavigationFragment.fmReplace
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,7 +38,7 @@ class OnBoardingFragment : Fragment() {
 
         viewBinding.btnGoToItemsFragment.setOnClickListener {
             viewModel.viewOnBoarding(KEY)
-                    fmReplace(parentFragmentManager, ItemsFragment(), false)
+                    replaceGraph(R.navigation.main_graph)
                     viewModel.finishPerformed()
         }
 

@@ -10,14 +10,11 @@ import android.widget.TextView
 import androidx.fragment.app.viewModels
 import com.example.androidhomework.R
 import com.example.androidhomework.databinding.FragmentDetailsBinding
-import com.example.androidhomework.presentation.view.adapter.view.auth.login.LogInFragment
-import com.example.androidhomework.presentation.view.adapter.view.home.items.ItemsFragment
 import com.example.androidhomework.presentation.view.adapter.view.home.items.ItemsFragment.Companion.KEY_DATE
 import com.example.androidhomework.presentation.view.adapter.view.home.items.ItemsFragment.Companion.KEY_IMAGE_VIEW
 import com.example.androidhomework.presentation.view.adapter.view.home.items.ItemsFragment.Companion.KEY_NAME
-import com.example.androidhomework.utils.NavigationFragment.fmReplace
+import com.example.androidhomework.utils.NavHelper.replaceGraph
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class DetailsFragment : Fragment() {
@@ -60,7 +57,9 @@ class DetailsFragment : Fragment() {
         }
 
         viewModel.nav.observe(viewLifecycleOwner) {
-            fmReplace(parentFragmentManager, LogInFragment(), false)
+            if (it != null) {
+                replaceGraph(it!!)
+            }
         }
 
     }

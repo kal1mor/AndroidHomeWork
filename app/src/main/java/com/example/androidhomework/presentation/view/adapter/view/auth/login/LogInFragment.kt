@@ -52,18 +52,18 @@ class LogInFragment : Fragment() {
         viewModel.nav.observe(viewLifecycleOwner) {
             if (it != null) {
                 viewModel.key.observe(viewLifecycleOwner) {
-                    if (it == 1) {
-                        viewModel.userViewOnBoarding.observe(viewLifecycleOwner) {
+                    when (it) {
+                        1 -> viewModel.userViewOnBoarding.observe(viewLifecycleOwner) {
                             replaceGraph(it!!)
                         }
-                    }else if (it == 2){
-                            viewModel.userViewOnBoarding.observe(viewLifecycleOwner) {
-                                navigate(it!!)
-                            }
+                        2 -> viewModel.userViewOnBoarding.observe(viewLifecycleOwner) {
+                            navigate(it!!)
                         }
                     }
-                } else {
-                Toast.makeText(context, getString(R.string.fields_is_empty), Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(context, getString(R.string.fields_is_empty), Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }

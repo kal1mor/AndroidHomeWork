@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
                                 navController.navigate(it!!)
                             }
                             3 -> viewModel.userExist.observe(this) {
-                                navController.navigate(it!!)
+                                navController.setGraph(it!!)
                             }
                         }
                     }

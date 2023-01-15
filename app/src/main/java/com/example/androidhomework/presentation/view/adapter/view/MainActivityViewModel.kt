@@ -46,7 +46,7 @@ class MainActivityViewModel @Inject constructor(
                  when(_userExist.value){
                     R.navigation.main_graph -> _key.value = 1
                     R.id.action_logInFragment_to_onBoardingFragment -> _key.value = 2
-                    R.id.logInFragment -> _key.value = 3
+                    R.navigation.auth_graph -> _key.value = 3
                 }
 
             } catch (e: Exception) {

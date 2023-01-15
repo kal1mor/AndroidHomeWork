@@ -34,7 +34,6 @@ class MainActivity : AppCompatActivity() {
         viewModel.checkUserExist()
 
 
-
         val navHostFragment = supportFragmentManager.findFragmentById(
             R.id.activity_container
         ) as NavHostFragment
@@ -47,14 +46,15 @@ class MainActivity : AppCompatActivity() {
                 true -> {
                     Log.w("4", "4")
                     viewModel.key.observe(this) {
-                        if (it == 1) {
-                            Log.w("1", "1")
-                            viewModel.userExist.observe(this) {
+                        when (it) {
+                            1 -> viewModel.userExist.observe(this) {
                                 navController.setGraph(it!!)
                             }
-                        } else if (it == 2 || it == 3) {
-                            Log.w("2", "2")
-                            viewModel.userExist.observe(this) {
+
+                            2 -> viewModel.userExist.observe(this) {
+                                navController.navigate(it!!)
+                            }
+                            3 -> viewModel.userExist.observe(this) {
                                 navController.navigate(it!!)
                             }
                         }

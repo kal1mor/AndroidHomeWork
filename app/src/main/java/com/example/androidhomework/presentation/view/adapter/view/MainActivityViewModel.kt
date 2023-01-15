@@ -35,7 +35,10 @@ class MainActivityViewModel @Inject constructor(
                     true -> {
                         when(doesUserViewOnBoarding){
                             true -> R.navigation.main_graph
-                            false -> R.id.action_logInFragment_to_onBoardingFragment
+                            false -> {
+                                Log.w("6", "6")
+                                R.id.action_logInFragment_to_onBoardingFragment
+                            }
                         }
                     }
                     false -> R.navigation.auth_graph

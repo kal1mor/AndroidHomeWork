@@ -29,19 +29,6 @@ class MainPresenter @Inject constructor(
                     Log.w("exception", "user not exists")
                 }
             }
-        }
-    }
-
-    fun checkUserViewOnBoarding() {
-        CoroutineScope(Dispatchers.Main).launch {
-            val job = launch {
-                try {
-                    val doesUserViewOnBoarding = authInteractor.checkOnBoardingView()
-                    mainView.userViewOnBoardingResult(doesUserViewOnBoarding)
-                } catch (e: Exception) {
-                    Log.w("exception", "user not exists")
-                }
-            }
             job.join()
             job.cancel()
         }

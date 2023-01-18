@@ -1,4 +1,4 @@
-package com.example.androidhomework.presentation.view.adapter.view.auth.onBoarding
+package com.example.androidhomework.presentation.view.adapter.view.home.onBoarding
 
 import android.util.Log
 import com.example.androidhomework.domain.auth.AuthInteractor
@@ -17,6 +17,21 @@ class OnBoardingPresenter @Inject constructor(
 
     fun setView(onBoardingFragment: OnBoardingFragment) {
         onBoardingView = onBoardingFragment
+    }
+
+    fun checkUserViewOnBoarding() {
+        CoroutineScope(Dispatchers.Main).launch {
+            val job = launch {
+                try {
+                    val doesUserViewOnBoarding = authInteractor.checkOnBoardingView()
+                    onBoardingView.userViewOnBoardingResult(doesUserViewOnBoarding)
+                } catch (e: Exception) {
+                    Log.w("exception", "user not exists")
+                }
+            }
+            job.join()
+            job.cancel()
+        }
     }
 
     fun viewOnBoarding(key: String) {

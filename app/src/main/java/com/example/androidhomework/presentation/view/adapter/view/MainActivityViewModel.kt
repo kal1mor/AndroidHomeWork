@@ -19,34 +19,24 @@ class MainActivityViewModel @Inject constructor(
     private val _userExist = MutableLiveData<Int?>()
     val userExist: LiveData<Int?> = _userExist
 
-    private val _userViewOnBoarding = MutableLiveData<Boolean>()
-    val userViewOnBoarding: LiveData<Boolean> = _userViewOnBoarding
+    private val _doesUserExist = MutableLiveData<Boolean?>()
+    val doesUserExist: LiveData<Boolean?> = _doesUserExist
 
-    private val _key = MutableLiveData<Int>()
-    val key: LiveData<Int?> get() = _key
 
     fun checkUserExist() {
         viewModelScope.launch {
             try {
                 val doesUserExist = authInteractor.cheackUserExist()
-                val doesUserViewOnBoarding = authInteractor.checkOnBoardingView()
-                _userViewOnBoarding.value = doesUserViewOnBoarding
-                _userExist.value = when(doesUserExist){
+
+                when(doesUserExist){
                     true -> {
-                        when(doesUserViewOnBoarding){
-                            true -> R.navigation.main_graph
-                            false -> {
-                                Log.w("6", "6")
-                                R.id.action_logInFragment_to_onBoardingFragment
-                            }
-                        }
+                        _userExist.value = R.navigation.main_graph
+                        _doesUserExist.value = true
                     }
-                    false -> R.navigation.auth_graph
-                }
-                 when(_userExist.value){
-                    R.navigation.main_graph -> _key.value = 1
-                    R.id.action_logInFragment_to_onBoardingFragment -> _key.value = 2
-                    R.navigation.auth_graph -> _key.value = 3
+                    false -> {
+                        _userExist.value = R.navigation.auth_graph
+                        _doesUserExist.value = false
+                    }
                 }
 
             } catch (e: Exception) {

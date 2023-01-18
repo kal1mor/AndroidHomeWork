@@ -1,4 +1,4 @@
-package com.example.androidhomework.presentation.view.adapter.view.auth.onBoarding
+package com.example.androidhomework.presentation.view.adapter.view.home.onBoarding
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.example.androidhomework.R
 import com.example.androidhomework.databinding.FragmentOnBoardingBinding
+import com.example.androidhomework.utils.NavHelper.navigate
 import com.example.androidhomework.utils.NavHelper.replaceGraph
 import com.example.androidhomework.utils.NavigationFragment.fmReplace
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,16 +34,16 @@ class OnBoardingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.userViewOnBoarding()
 
-
+        viewModel.nav.observe(viewLifecycleOwner){
+            navigate(R.id.action_onBoardingFragment_to_itemsFragment)
+        }
 
         viewBinding.btnGoToItemsFragment.setOnClickListener {
             viewModel.viewOnBoarding(KEY)
-                    replaceGraph(R.navigation.main_graph)
-                    viewModel.finishPerformed()
+                    navigate(R.id.action_onBoardingFragment_to_itemsFragment)
         }
-
-
     }
 
     companion object {

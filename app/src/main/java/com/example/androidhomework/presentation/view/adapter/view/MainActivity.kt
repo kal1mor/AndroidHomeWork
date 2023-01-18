@@ -11,7 +11,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.example.androidhomework.R
 import com.example.androidhomework.databinding.ActivityMainBinding
 import com.example.androidhomework.presentation.view.adapter.view.auth.login.LogInFragment
-import com.example.androidhomework.presentation.view.adapter.view.auth.onBoarding.OnBoardingFragment
+import com.example.androidhomework.presentation.view.adapter.view.home.onBoarding.OnBoardingFragment
 import com.example.androidhomework.presentation.view.adapter.view.home.items.ItemsFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -40,31 +40,15 @@ class MainActivity : AppCompatActivity() {
 
         navController = navHostFragment.navController
         Log.w("5", "5")
-        viewModel.userViewOnBoarding.observe(this) {
-            Log.w("4", "4")
-            when (it) {
-                true -> {
-                    Log.w("4", "4")
-                    viewModel.key.observe(this) {
-                        when (it) {
-                            1 -> viewModel.userExist.observe(this) {
-                                navController.setGraph(it!!)
-                            }
 
-                            2 -> viewModel.userExist.observe(this) {
-                                navController.navigate(it!!)
-                            }
-                            3 -> viewModel.userExist.observe(this) {
-                                navController.setGraph(it!!)
-                            }
-                        }
-                    }
+        viewModel.doesUserExist.observe(this) {
+            if (it != true) {
+                viewModel.userExist.observe(this) {
+                    navController.setGraph(R.navigation.auth_graph)
                 }
-                false -> {
-                    Log.w("3", "3")
-                    viewModel.userExist.observe(this) {
-                        navController.setGraph(it!!)
-                    }
+            } else {
+                viewModel.userExist.observe(this) {
+                    navController.setGraph(R.navigation.main_graph)
                 }
             }
         }

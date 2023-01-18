@@ -19,6 +19,9 @@ class LoginViewModel @Inject constructor(
     private val _nav = MutableLiveData<Unit?>()
     val nav: LiveData<Unit?> get() = _nav
 
+    private val _doesUserExists = MutableLiveData<Int?>()
+    val doesUserExists: LiveData<Int?> get() = _doesUserExists
+
     private val _userViewOnBoarding = MutableLiveData<Int?>()
     val userViewOnBoarding: LiveData<Int?> get() = _userViewOnBoarding
 
@@ -29,25 +32,25 @@ class LoginViewModel @Inject constructor(
     fun loginUser(userName: String, userPassword: String) {
         viewModelScope.launch {
             try {
-                val doesUserViewOnBoarding = authInteractor.checkOnBoardingView()
                 authInteractor.loginUser(userName, userPassword)
                 _nav.value = Unit
-                when(doesUserViewOnBoarding) {
-                    true -> {
-                        _userViewOnBoarding.value = R.navigation.main_graph
-                        _key.value = 1
-                    }
-                    false -> {
-                        _userViewOnBoarding.value = R.id.action_logInFragment_to_onBoardingFragment
-                        _key.value = 2
-                    }
-                }
+                _userViewOnBoarding.value = R.navigation.main_graph
             }catch (e: Exception){
                 Log.w("exception", " user not logged")
             }
 
         }
 
+    }
+
+    fun checkUserExist(){
+        viewModelScope.launch {
+            val doesUserExist = authInteractor.cheackUserExist()
+            _doesUserExists.value = when(doesUserExist) {
+                true -> R.navigation.main_graph
+                false -> R.navigation.auth_graph
+            }
+        }
     }
 
     fun userNavigated(){

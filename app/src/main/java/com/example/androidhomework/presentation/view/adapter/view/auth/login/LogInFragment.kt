@@ -39,8 +39,15 @@ class LogInFragment : Fragment() {
     ) {
 
         super.onViewCreated(view, savedInstanceState)
+        viewModel.checkUserExist()
 
-
+        viewModel.nav.observe(viewLifecycleOwner) {
+            if (it == null) {
+                viewModel.doesUserExists.observe(viewLifecycleOwner) {
+                    replaceGraph(it!!)
+                }
+            }
+        }
 
         viewBinding.btnLogin.setOnClickListener {
             viewModel.loginUser(
@@ -49,17 +56,11 @@ class LogInFragment : Fragment() {
             )
         }
 
+
         viewModel.nav.observe(viewLifecycleOwner) {
             if (it != null) {
-                viewModel.key.observe(viewLifecycleOwner) {
-                    when (it) {
-                        1 -> viewModel.userViewOnBoarding.observe(viewLifecycleOwner) {
-                            replaceGraph(it!!)
-                        }
-                        2 -> viewModel.userViewOnBoarding.observe(viewLifecycleOwner) {
-                            navigate(it!!)
-                        }
-                    }
+                viewModel.userViewOnBoarding.observe(viewLifecycleOwner) {
+                    replaceGraph(it!!)
                 }
             } else {
                 Toast.makeText(context, getString(R.string.fields_is_empty), Toast.LENGTH_SHORT)

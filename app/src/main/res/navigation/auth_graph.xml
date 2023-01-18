@@ -8,14 +8,5 @@
     <fragment
         android:id="@+id/logInFragment"
         android:name="com.example.androidhomework.presentation.view.adapter.view.auth.login.LogInFragment"
-        android:label="LogInFragment" >
-        <action
-            android:id="@+id/action_logInFragment_to_onBoardingFragment"
-            app:destination="@id/onBoardingFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/onBoardingFragment"
-        android:name="com.example.androidhomework.presentation.view.adapter.view.auth.onBoarding.OnBoardingFragment"
-        android:label="fragment_on_boarding"
-        tools:layout="@layout/fragment_on_boarding" />
+        android:label="LogInFragment" />
 </navigation>

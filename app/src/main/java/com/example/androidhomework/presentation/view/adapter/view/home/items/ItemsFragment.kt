@@ -54,29 +54,21 @@ class ItemsFragment : Fragment(), ItemsListener, ItemsView {
 
     }
 
-    override fun onClick() {
-        itemsPresenter.imageViewCLicked()
-    }
 
-    override fun onElementSelected(name: String, date: String, imageView: Int) {
-        itemsPresenter.elementSelected(name, date, imageView)
+
+    override fun onElementSelected(name: String, username: String, email: String) {
+        itemsPresenter.elementSelected(name, username, email)
     }
 
     override fun dataReceived(list: List<ItemsModel>) {
         itemsAdapter.submitList(list)
     }
 
-    override fun imageViewCLicked(msg: Int) {
-        Toast.makeText(context, getString(R.string.image_view_clicked), Toast.LENGTH_SHORT).show()
-    }
-
-    override fun goToDetails(name: String, date: String, imageView: Int) {
-        val detailsFragment = DetailsFragment()
+    override fun goToDetails(name: String, username: String, email: String) {
         val bundle = Bundle()
         bundle.putString(KEY_NAME, name)
-        bundle.putString(KEY_DATE, date)
-        bundle.putInt(KEY_IMAGE_VIEW, imageView)
-        detailsFragment.arguments = bundle
+        bundle.putString(KEY_USERNAME, username)
+        bundle.putString(KEY_EMAIL, email)
 
         //ADD method we will not use
         //We will use replace
@@ -86,7 +78,7 @@ class ItemsFragment : Fragment(), ItemsListener, ItemsView {
 
     companion object {
         const val KEY_NAME = "name"
-        const val KEY_DATE = "date"
-        const val KEY_IMAGE_VIEW = "imageView"
+        const val KEY_USERNAME = "username"
+        const val KEY_EMAIL = "email"
     }
 }

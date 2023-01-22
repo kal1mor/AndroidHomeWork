@@ -6,7 +6,5 @@ interface ItemsView {
 
     fun dataReceived(list: List<ItemsModel>)
 
-    fun imageViewCLicked(msg: Int)
-
-    fun goToDetails(name: String, date: String, imageView: Int)
+    fun goToDetails(name: String, username: String, email: String)
 }

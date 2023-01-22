@@ -17,17 +17,20 @@ constructor(private val authInteractor: AuthInteractor) {
         detailsView = detailsFragment
     }
 
-    fun getDetails(name: String?, date: String?, image: Int) {
+    fun getDetails(name: String?, userName: String?, email: String?) {
         detailsView.displayDetails(
             when (name.isNullOrEmpty()) {
                 true -> "NO DATA"
                 false -> name
             },
-            when (date.isNullOrEmpty()) {
+            when (userName.isNullOrEmpty()) {
                 true -> "NO DATA"
-                false -> date
+                false -> userName
             },
-            image
+            when (email.isNullOrEmpty()) {
+                true -> "NO DATA"
+                false -> email
+            }
         )
     }
 

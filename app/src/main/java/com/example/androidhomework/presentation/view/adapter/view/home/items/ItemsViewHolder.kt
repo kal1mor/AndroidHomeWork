@@ -11,20 +11,24 @@ class ItemsViewHolder(
     ): RecyclerView.ViewHolder(viewBinding.root) {
 
     fun bind(itemsModel: ItemsModel){
-        viewBinding.tvName.text = itemsModel.name
-        viewBinding.ivImage.setBackgroundResource(itemsModel.image)
-        viewBinding.tvDate.text = itemsModel.date
+        viewBinding.tvName.text = "Name: " + itemsModel.name
+        viewBinding.tvUsername.text = "Username: " + itemsModel.username
+        viewBinding.tvEmail.text = "E-mail: " + itemsModel.email
+        viewBinding.tvPhone.text = "Phone: " + itemsModel.phone
+        viewBinding.tvAddress.text = "Address: " + itemsModel.city + ", " + itemsModel.street + "str., " + itemsModel.suite
+        viewBinding.tvZipcode.text = "Zipcode: " + itemsModel.zipcode
+        viewBinding.tvCompany.text = "Company: " + itemsModel.nameCompany
+        viewBinding.tvGeo.text = "Geolocation: lat: " + itemsModel.lat+ ", lng: " + itemsModel.lng
+        viewBinding.tvWebsite.text = "Website " + itemsModel.website
+        viewBinding.tvBs.text = "Business: " + itemsModel.bs
+        viewBinding.tvCatchPhrase.text = "Catch phrase: " + itemsModel.catchPhrase
 
-        viewBinding.ivImage.setOnClickListener{
-            itemsListener.onClick()
-        }
 
         itemView.setOnClickListener{
             itemsListener.onElementSelected(
                 itemsModel.name,
-                itemsModel.date,
-                itemsModel.image
-            )
+                itemsModel.username,
+                itemsModel.email)
         }
     }
 }

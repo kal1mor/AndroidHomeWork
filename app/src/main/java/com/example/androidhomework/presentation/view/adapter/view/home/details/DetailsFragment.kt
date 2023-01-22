@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.androidhomework.R
 import com.example.androidhomework.databinding.FragmentDetailsBinding
-import com.example.androidhomework.presentation.view.adapter.view.home.items.ItemsFragment.Companion.KEY_DATE
-import com.example.androidhomework.presentation.view.adapter.view.home.items.ItemsFragment.Companion.KEY_IMAGE_VIEW
+import com.example.androidhomework.presentation.view.adapter.view.home.items.ItemsFragment.Companion.KEY_EMAIL
 import com.example.androidhomework.presentation.view.adapter.view.home.items.ItemsFragment.Companion.KEY_NAME
+import com.example.androidhomework.presentation.view.adapter.view.home.items.ItemsFragment.Companion.KEY_USERNAME
 import com.example.androidhomework.utils.NavHelper.replaceGraph
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -42,8 +42,8 @@ class DetailsFragment : Fragment(), DetailsView {
         bundle?.let { _ ->
             detailsPresenter.getDetails(
                 bundle.getString(KEY_NAME),
-                bundle.getString(KEY_DATE),
-                bundle.getInt(KEY_IMAGE_VIEW)
+                bundle.getString(KEY_EMAIL),
+                bundle.getString(KEY_USERNAME)
             )
         }
 
@@ -56,10 +56,12 @@ class DetailsFragment : Fragment(), DetailsView {
         replaceGraph(R.navigation.auth_graph)
     }
 
-    override fun displayDetails(name: String, date: String, image: Int) {
+    override fun displayDetails(name: String, userName: String, email: String) {
         viewBinding.detailsName.text = name
-        viewBinding.detailsDate.text = date
-        viewBinding.detailsImage.setBackgroundResource(image)
+        viewBinding.detailsUserName.text = userName
+        viewBinding.detailsEmail.text = email
+
+
     }
 
 }

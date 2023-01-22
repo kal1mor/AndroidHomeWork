@@ -4,5 +4,5 @@ interface DetailsView {
 
     fun userLoggedOut()
 
-    fun displayDetails(name: String, date: String, image: Int)
+    fun displayDetails(name: String, userName: String, email: String)
 }

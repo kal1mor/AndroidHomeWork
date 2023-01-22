@@ -32,12 +32,8 @@ class ItemsPresenter @Inject constructor(private val itemsInteractor: ItemsInter
         }
     }
 
-    fun imageViewCLicked() {
-        itemsView.imageViewCLicked(R.string.image_view_clicked)
-    }
-
-    fun elementSelected(name: String, date: String, imageView: Int) {
-        itemsView.goToDetails(name, date, imageView)
+    fun elementSelected(name: String, username: String, email: String){
+        itemsView.goToDetails(name, username, email)
     }
 
 }

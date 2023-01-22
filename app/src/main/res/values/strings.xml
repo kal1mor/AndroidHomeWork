@@ -11,4 +11,15 @@
     <string name="fields_is_empty">fields is empty</string>
     <string name="next_page">next page</string>
     <string name="logout">logout</string>
+    <string name="name">name</string>
+    <string name="username">username</string>
+    <string name="address">address</string>
+    <string name="zipcode">zipcode</string>
+    <string name="geo">geo</string>
+    <string name="phone">phone</string>
+    <string name="website">website</string>
+    <string name="company">company</string>
+    <string name="e_mail_items">e_mail_items</string>
+    <string name="catchphrase">catchphrase</string>
+    <string name="business">business</string>
 </resources>

@@ -1,88 +1,42 @@
 package com.example.androidhomework.data.items
 
 import com.example.androidhomework.R
+import com.example.androidhomework.data.service.ApiService
 import com.example.androidhomework.domain.items.ItemsRepository
 import com.example.androidhomework.domain.model.ItemsModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class ItemsRepositoryImpl @Inject constructor(): ItemsRepository {
+class ItemsRepositoryImpl @Inject constructor(
+    private val apiService: ApiService
+): ItemsRepository {
     override suspend fun getData(): List<ItemsModel> {
         return withContext(Dispatchers.IO) {
-            val listItems = listOf<ItemsModel>(
-                ItemsModel(
-                    R.drawable.m4a1,
-                    "m4a1",
-                    "28.11.2022"
-                ),
-                ItemsModel(
-                    R.drawable.aug,
-                    "AUG",
-                    "27.11.2022"
-                ),
-                ItemsModel(
-                    R.drawable.awp,
-                    "AWP",
-                    "26.11.2022"
-                ),
-                ItemsModel(
-                    R.drawable.p2000,
-                    "p2000",
-                    "25.11.2022"
-                ),
-                ItemsModel(
-                    R.drawable.m4a1,
-                    "m4a1",
-                    "24.11.2022"
-                ),
-                ItemsModel(
-                    R.drawable.aug,
-                    "aug",
-                    "23.11.2022"
-                ),
-                ItemsModel(
-                    R.drawable.awp,
-                    "awp",
-                    "22.11.2022"
-                ),
-                ItemsModel(
-                    R.drawable.p2000,
-                    "p2000",
-                    "21.11.2022"
-                ),
-                ItemsModel(
-                    R.drawable.m4a1,
-                    "m4a1",
-                    "20.11.2022"
-                ),
-                ItemsModel(
-                    R.drawable.aug,
-                    "aug",
-                    "19.11.2022"
-                ),
-                ItemsModel(
-                    R.drawable.awp,
-                    "awp",
-                    "18.11.2022"
-                ),
-                ItemsModel(
-                    R.drawable.p2000,
-                    "p2000",
-                    "17.11.2022"
-                ),
-                ItemsModel(
-                    R.drawable.m4a1,
-                    "m4a1",
-                    "16.11.2022"
-                ),
-                ItemsModel(
-                    R.drawable.aug,
-                    "aug",
-                    "15.11.2022"
-                )
-            )
-            listItems
+            val response = apiService.getData()
+            response.body()?.let {
+                it.map {
+                    ItemsModel(
+                        it.id,
+                        it.name,
+                        it.username,
+                        it.email,
+                        it.phone,
+                        it.website,
+                        it.address.street,
+                        it.address.suite,
+                        it.address.city,
+                        it.address.zipcode,
+                        it.company.name,
+                        it.company.catchPhrase,
+                        it.company.bs,
+                        it.address.geo.lat,
+                        it.address.geo.lng,
+                    )
+                }
+            } ?: kotlin.run {
+                emptyList()
+            }
         }
     }
 }

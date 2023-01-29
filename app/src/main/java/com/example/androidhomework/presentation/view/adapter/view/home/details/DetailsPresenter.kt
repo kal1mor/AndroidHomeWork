@@ -2,6 +2,7 @@ package com.example.androidhomework.presentation.view.adapter.view.home.details
 
 import android.util.Log
 import com.example.androidhomework.domain.auth.AuthInteractor
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

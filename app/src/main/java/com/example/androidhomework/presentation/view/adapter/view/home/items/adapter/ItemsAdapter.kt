@@ -1,10 +1,9 @@
-package com.example.androidhomework.presentation.view.adapter.view.home.items
+package com.example.androidhomework.presentation.view.adapter.view.home.items.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidhomework.databinding.ItemGunBinding
-import com.example.androidhomework.presentation.view.adapter.listener.ItemsListener
 import com.example.androidhomework.domain.model.ItemsModel
 
 class ItemsAdapter(

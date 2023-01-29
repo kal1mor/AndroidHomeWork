@@ -28,4 +28,9 @@
         android:name="com.example.androidhomework.presentation.view.adapter.view.home.details.DetailsFragment"
         android:label="fragment_details"
         tools:layout="@layout/fragment_details" />
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.example.androidhomework.presentation.view.adapter.view.home.favorites.FavoritesFragment"
+        android:label="fragment_favorites"
+        tools:layout="@layout/fragment_favorites" />
 </navigation>

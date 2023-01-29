@@ -1,10 +1,11 @@
 package com.example.androidhomework.data.items
 
 import android.util.Log
-import com.example.androidhomework.R
+import com.example.androidhomework.data.database.FavoritesEntity
 import com.example.androidhomework.data.database.ItemsEntity
 import com.example.androidhomework.data.database.dao.ItemsDao
 import com.example.androidhomework.data.service.ApiService
+import com.example.androidhomework.di.FavoritesModel
 import com.example.androidhomework.domain.items.ItemsRepository
 import com.example.androidhomework.domain.model.ItemsModel
 import kotlinx.coroutines.Dispatchers
@@ -66,6 +67,82 @@ class ItemsRepositoryImpl @Inject constructor(
                     it.lat,
                     it.lng)
             }
+        }
+    }
+
+    override suspend fun favClicked(itemsModel: ItemsModel) {
+        return withContext(Dispatchers.IO){
+            itemsDao.insetFavoritesEntity(
+                FavoritesEntity(
+                    itemsModel.id,
+                    itemsModel.name,
+                    itemsModel.username,
+                    itemsModel.email,
+                    itemsModel.phone,
+                    itemsModel.website,
+                    itemsModel.street,
+                    itemsModel.suite,
+                    itemsModel.city,
+                    itemsModel.zipcode,
+                    itemsModel.name,
+                    itemsModel.catchPhrase,
+                    itemsModel.bs,
+                    itemsModel.lat,
+                    itemsModel.lng
+                )
+            )
+        }
+    }
+
+    override suspend fun deleteItemById(id: Int) {
+        withContext(Dispatchers.IO){
+            itemsDao.deleteItemEntityById(id)
+        }
+    }
+
+
+    override suspend fun getFavorites(): List<FavoritesModel> {
+        return withContext(Dispatchers.IO) {
+            val favoritesEntity = itemsDao.getFavoritesEntities()
+            favoritesEntity.map{
+                FavoritesModel(
+                    it.id,
+                    it.name,
+                    it.username,
+                    it.email,
+                    it.phone,
+                    it.website,
+                    it.street,
+                    it.suite,
+                    it.city,
+                    it.zipcode,
+                    it.nameCompany,
+                    it.catchPhrase,
+                    it.bs,
+                    it.lat,
+                    it.lng)
+            }
+        }
+    }
+
+    override suspend fun findItemById(id: Int): ItemsModel {
+        return withContext(Dispatchers.IO){
+            val itemsEntity = itemsDao.findItemEntityById(id)
+            ItemsModel(itemsEntity.id,
+                itemsEntity.name,
+                itemsEntity.username,
+                itemsEntity.email,
+                itemsEntity.phone,
+                itemsEntity.website,
+                itemsEntity.street,
+                itemsEntity.suite,
+                itemsEntity.city,
+                itemsEntity.zipcode,
+                itemsEntity.name,
+                itemsEntity.catchPhrase,
+                itemsEntity.bs,
+                itemsEntity.lat,
+                itemsEntity.lng)
         }
     }
 }

@@ -22,4 +22,7 @@
     <string name="e_mail_items">e_mail_items</string>
     <string name="catchphrase">catchphrase</string>
     <string name="business">business</string>
+    <string name="onboarding_fragment">onBoarding fragment</string>
+    <string name="items_fragment">items fragment</string>
+    <string name="favorites_fragment">favorites Fragment</string>
 </resources>

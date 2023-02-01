@@ -5,4 +5,6 @@ interface ItemsListener {
     fun onElementSelected(name: String, username: String, email: String)
 
     fun onFavClicked(id: Int)
+
+    fun onDeleteClicked(id: Int)
 }

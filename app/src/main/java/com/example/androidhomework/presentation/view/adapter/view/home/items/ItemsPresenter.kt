@@ -6,6 +6,7 @@ import com.example.androidhomework.domain.items.ItemsInteractor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,16 +19,31 @@ class ItemsPresenter @Inject constructor(private val itemsInteractor: ItemsInter
     }
 
     fun getData() {
+
+
         CoroutineScope(Dispatchers.Main).launch {
+            val jobShowData = launch {
+                try {
+                    val listItems = itemsInteractor.showData()
+                        listItems.collect{
+                            itemsView.dataReceived(it)
+                    }
+
+                }catch (e: Exception) {
+                    Log.w("exception", "data not found")
+                }
+            }
+
             val job = launch {
                 try {
                     itemsInteractor.getData()
-                    itemsView.dataReceived(itemsInteractor.showData())
                 } catch (e: Exception) {
                     Log.w("exception", "data not found")
                 }
             }
+            jobShowData.join()
             job.join()
+            jobShowData.cancel()
             job.cancel()
         }
     }
@@ -49,6 +65,20 @@ class ItemsPresenter @Inject constructor(private val itemsInteractor: ItemsInter
             }
         }
 
+    }
+
+    fun onDeleteClicked(id: Int){
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val job = launch {
+                    itemsInteractor.deleteItemById(id)
+                }
+                job.join()
+                job.cancel()
+            }catch (e: Exception){
+                Log.w("exception", e.toString())
+            }
+        }
     }
 
 }

@@ -5,6 +5,7 @@ import com.example.androidhomework.domain.items.ItemsInteractor
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,12 +27,29 @@ class FavoritePresenter @Inject constructor(
             try {
                 val job = launch {
                     val favoritesItems = itemsInteractor.getFavorites()
-                    favoritesView.favReceived(favoritesItems)
+                    favoritesItems.collect{
+                        favoritesView.favReceived(it)
+                    }
+
                 }
                 job.join()
                 job.cancel()
             } catch (e: Exception){
                 Log.w("exception","getFavorites FAILED")
+            }
+        }
+    }
+
+    fun onDeleteClicked(id: Int){
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val job = launch {
+                    itemsInteractor.deleteFavById(id)
+                }
+                job.join()
+                job.cancel()
+            }catch (e: Exception){
+                Log.w("exception", e.toString())
             }
         }
     }

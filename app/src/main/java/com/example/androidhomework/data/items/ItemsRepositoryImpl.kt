@@ -9,6 +9,8 @@ import com.example.androidhomework.di.FavoritesModel
 import com.example.androidhomework.domain.items.ItemsRepository
 import com.example.androidhomework.domain.model.ItemsModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -47,25 +49,29 @@ class ItemsRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun showData(): List<ItemsModel> {
+    override suspend fun showData(): Flow<List<ItemsModel>> {
         return withContext(Dispatchers.IO) {
-            val itemsEntity = itemsDao.getItemsEntities()
-            itemsEntity.map {
-                ItemsModel(it.id,
-                    it.name,
-                    it.username,
-                    it.email,
-                    it.phone,
-                    it.website,
-                    it.street,
-                    it.suite,
-                    it.city,
-                    it.zipcode,
-                    it.name,
-                    it.catchPhrase,
-                    it.bs,
-                    it.lat,
-                    it.lng)
+        val itemsEntity = itemsDao.getItemsEntities()
+            itemsEntity.map { itemsList ->
+                itemsList.map { item ->
+                    ItemsModel(
+                        item.id,
+                        item.name,
+                        item.username,
+                        item.email,
+                        item.phone,
+                        item.website,
+                        item.street,
+                        item.suite,
+                        item.city,
+                        item.zipcode,
+                        item.name,
+                        item.catchPhrase,
+                        item.bs,
+                        item.lat,
+                        item.lng
+                    )
+                }
             }
         }
     }
@@ -101,26 +107,29 @@ class ItemsRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun getFavorites(): List<FavoritesModel> {
+    override suspend fun getFavorites(): Flow<List<FavoritesModel>> {
         return withContext(Dispatchers.IO) {
             val favoritesEntity = itemsDao.getFavoritesEntities()
-            favoritesEntity.map{
-                FavoritesModel(
-                    it.id,
-                    it.name,
-                    it.username,
-                    it.email,
-                    it.phone,
-                    it.website,
-                    it.street,
-                    it.suite,
-                    it.city,
-                    it.zipcode,
-                    it.nameCompany,
-                    it.catchPhrase,
-                    it.bs,
-                    it.lat,
-                    it.lng)
+            favoritesEntity.map{ favList ->
+                favList.map { favItem ->
+                    FavoritesModel(
+                        favItem.id,
+                        favItem.name,
+                        favItem.username,
+                        favItem.email,
+                        favItem.phone,
+                        favItem.website,
+                        favItem.street,
+                        favItem.suite,
+                        favItem.city,
+                        favItem.zipcode,
+                        favItem.nameCompany,
+                        favItem.catchPhrase,
+                        favItem.bs,
+                        favItem.lat,
+                        favItem.lng
+                    )
+                }
             }
         }
     }
@@ -143,6 +152,12 @@ class ItemsRepositoryImpl @Inject constructor(
                 itemsEntity.bs,
                 itemsEntity.lat,
                 itemsEntity.lng)
+        }
+    }
+
+    override suspend fun deleteFavById(id: Int) {
+        withContext(Dispatchers.IO){
+            itemsDao.deleteFavEntityById(id)
         }
     }
 }

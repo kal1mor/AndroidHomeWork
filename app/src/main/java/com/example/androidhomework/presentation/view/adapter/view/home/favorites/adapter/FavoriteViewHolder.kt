@@ -6,7 +6,8 @@ import com.example.androidhomework.databinding.ItemsFavoriteBinding
 import com.example.androidhomework.di.FavoritesModel
 
 class FavoriteViewHolder(
-    private val viewBinding: ItemsFavoriteBinding
+    private val viewBinding: ItemsFavoriteBinding,
+    private val favoriteListener: FavoriteListener
 ) : RecyclerView.ViewHolder(viewBinding.root) {
 
     @SuppressLint("SetTextI18n")
@@ -23,5 +24,9 @@ class FavoriteViewHolder(
         viewBinding.tvWebsite.text = "Website " + favItems.website
         viewBinding.tvBs.text = "Business: " + favItems.bs
         viewBinding.tvCatchPhrase.text = "Catch phrase: " + favItems.catchPhrase
+
+        viewBinding.btnDeleteFav.setOnClickListener {
+            favoriteListener.onDeleteClicked(favItems.id)
+        }
     }
 }

@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy.Companion.IGNORE
 import androidx.room.Query
 import com.example.androidhomework.data.database.FavoritesEntity
 import com.example.androidhomework.data.database.ItemsEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ItemsDao {
@@ -16,10 +17,13 @@ interface ItemsDao {
     fun doesItemsEntityExist(): Boolean
 
     @Query("SELECT * FROM ItemsEntity")
-    fun getItemsEntities(): List<ItemsEntity>
+    fun getItemsEntities(): Flow<List<ItemsEntity>>
 
     @Query("DELETE FROM ItemsEntity WHERE id =:id")
     fun deleteItemEntityById(id: Int)
+
+    @Query("DELETE FROM FavoritesEntity WHERE id =:id")
+    fun deleteFavEntityById(id: Int)
 
     @Query("SELECT * FROM ItemsEntity WHERE id =:id")
     fun findItemEntityById(id: Int): ItemsEntity
@@ -28,5 +32,5 @@ interface ItemsDao {
     fun insetFavoritesEntity(favoritesEntity: FavoritesEntity)
 
     @Query("SELECT * FROM FavoritesEntity")
-    fun getFavoritesEntities(): List<FavoritesEntity>
+    fun getFavoritesEntities(): Flow<List<FavoritesEntity>>
 }

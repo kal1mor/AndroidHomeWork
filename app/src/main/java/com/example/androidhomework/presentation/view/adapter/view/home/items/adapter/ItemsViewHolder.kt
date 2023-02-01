@@ -34,5 +34,9 @@ class ItemsViewHolder(
             itemsListener.onFavClicked(itemsModel.id)
         }
 
+        viewBinding.btnDelete.setOnClickListener{
+            itemsListener.onDeleteClicked(itemsModel.id)
+        }
+
     }
 }

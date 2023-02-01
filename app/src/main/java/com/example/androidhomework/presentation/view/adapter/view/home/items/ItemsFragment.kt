@@ -13,6 +13,7 @@ import com.example.androidhomework.presentation.view.adapter.view.home.items.ada
 import com.example.androidhomework.presentation.view.adapter.view.home.items.adapter.ItemsAdapter
 import com.example.androidhomework.utils.NavHelper.navigateWithBundle
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
@@ -60,6 +61,10 @@ class ItemsFragment : Fragment(), ItemsListener, ItemsView {
 
     override fun onFavClicked(id: Int) {
         itemsPresenter.onFavClicked(id)
+    }
+
+    override fun onDeleteClicked(id: Int) {
+        itemsPresenter.onDeleteClicked(id)
     }
 
     override fun dataReceived(list: List<ItemsModel>) {

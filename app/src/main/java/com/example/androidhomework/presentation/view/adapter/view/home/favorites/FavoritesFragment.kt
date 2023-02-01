@@ -6,16 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.androidhomework.R
 import com.example.androidhomework.databinding.FragmentFavoritesBinding
 import com.example.androidhomework.di.FavoritesModel
 import com.example.androidhomework.presentation.view.adapter.view.home.favorites.adapter.FavoriteAdapter
-import com.example.androidhomework.presentation.view.adapter.view.home.items.adapter.ItemsAdapter
+import com.example.androidhomework.presentation.view.adapter.view.home.favorites.adapter.FavoriteListener
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class FavoritesFragment : Fragment(), FavoriteView {
+class FavoritesFragment : Fragment(), FavoriteView, FavoriteListener {
 
     @Inject
     lateinit var favoritesPresenter: FavoritePresenter
@@ -38,7 +37,7 @@ class FavoritesFragment : Fragment(), FavoriteView {
         super.onViewCreated(view, savedInstanceState)
         favoritesPresenter.setView(this)
 
-        favAdapter = FavoriteAdapter()
+        favAdapter = FavoriteAdapter(this)
 
         viewBinding.rcView.layoutManager = LinearLayoutManager(requireContext())
         viewBinding.rcView.adapter = favAdapter
@@ -48,5 +47,9 @@ class FavoritesFragment : Fragment(), FavoriteView {
 
     override fun favReceived(list: List<FavoritesModel>) {
         favAdapter.submitList(list)
+    }
+
+    override fun onDeleteClicked(id: Int) {
+        favoritesPresenter.onDeleteClicked(id)
     }
 }

@@ -1,6 +1,7 @@
 package com.example.androidhomework.domain.items
 
 import com.example.androidhomework.di.FavoritesModel
+import com.example.androidhomework.domain.model.HomeModel
 import com.example.androidhomework.domain.model.ItemsModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -34,5 +35,9 @@ class ItemsInteractor @Inject constructor(private val itemsRepository: ItemsRepo
 
     suspend fun deleteFavById(id: Int){
         itemsRepository.deleteFavById(id)
+    }
+
+    suspend fun getHomeItems(): Flow<List<HomeModel>>{
+        return itemsRepository.getHomeItems()
     }
 }

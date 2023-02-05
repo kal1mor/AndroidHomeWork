@@ -19,8 +19,6 @@ class ItemsPresenter @Inject constructor(private val itemsInteractor: ItemsInter
     }
 
     fun getData() {
-
-
         CoroutineScope(Dispatchers.Main).launch {
             val jobShowData = launch {
                 try {
@@ -28,7 +26,6 @@ class ItemsPresenter @Inject constructor(private val itemsInteractor: ItemsInter
                         listItems.collect{
                             itemsView.dataReceived(it)
                     }
-
                 }catch (e: Exception) {
                     Log.w("exception", "data not found")
                 }

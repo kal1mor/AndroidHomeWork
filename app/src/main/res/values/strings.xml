@@ -25,4 +25,5 @@
     <string name="onboarding_fragment">onBoarding fragment</string>
     <string name="items_fragment">items fragment</string>
     <string name="favorites_fragment">favorites Fragment</string>
+    <string name="home_fragment">home fragment</string>
 </resources>

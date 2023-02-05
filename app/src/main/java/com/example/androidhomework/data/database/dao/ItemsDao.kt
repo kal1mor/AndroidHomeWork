@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.IGNORE
 import androidx.room.Query
 import com.example.androidhomework.data.database.FavoritesEntity
+import com.example.androidhomework.data.database.HomeEntity
 import com.example.androidhomework.data.database.ItemsEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -33,4 +34,10 @@ interface ItemsDao {
 
     @Query("SELECT * FROM FavoritesEntity")
     fun getFavoritesEntities(): Flow<List<FavoritesEntity>>
+
+    @Insert
+    fun insertHomeEntity(homeEntity: HomeEntity)
+
+    @Query("SELECT * FROM HomeEntity")
+    fun getHomeEntities(): Flow<List<HomeEntity>>
 }

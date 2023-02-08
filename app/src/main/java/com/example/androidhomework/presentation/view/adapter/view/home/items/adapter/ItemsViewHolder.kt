@@ -32,6 +32,10 @@ class ItemsViewHolder(
 
         viewBinding.btnFav.setOnClickListener{
             itemsListener.onFavClicked(itemsModel.id)
+
+            itemsListener.updateFavorite(!itemsModel.favorite, itemsModel.id)
+
+            viewBinding.btnFav.isSelected = itemsModel.favorite
         }
 
         viewBinding.btnDelete.setOnClickListener{

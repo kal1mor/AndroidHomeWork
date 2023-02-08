@@ -10,7 +10,8 @@ data class ItemsResponse(
     val address: Address,
     val phone: String,
     val website: String,
-    val company: Company
+    val company: Company,
+    val favorite: Boolean
 )
 
 data class Address(

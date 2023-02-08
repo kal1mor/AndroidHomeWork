@@ -43,7 +43,8 @@ class ItemsRepositoryImpl @Inject constructor(
                             it.company.catchPhrase,
                             it.company.bs,
                             it.address.geo.lat,
-                            it.address.geo.lng)
+                            it.address.geo.lng,
+                            !it.favorite)
                         itemsDao.insertItemsEntity(itemsEntity)
                     }
                 }
@@ -102,7 +103,8 @@ class ItemsRepositoryImpl @Inject constructor(
                         item.catchPhrase,
                         item.bs,
                         item.lat,
-                        item.lng
+                        item.lng,
+                        item.favorite
                     )
                 }
             }
@@ -127,7 +129,8 @@ class ItemsRepositoryImpl @Inject constructor(
                     itemsModel.catchPhrase,
                     itemsModel.bs,
                     itemsModel.lat,
-                    itemsModel.lng
+                    itemsModel.lng,
+                    itemsModel.favorite
                 )
             )
         }
@@ -160,7 +163,8 @@ class ItemsRepositoryImpl @Inject constructor(
                         favItem.catchPhrase,
                         favItem.bs,
                         favItem.lat,
-                        favItem.lng
+                        favItem.lng,
+                        favItem.favorite
                     )
                 }
             }
@@ -184,7 +188,8 @@ class ItemsRepositoryImpl @Inject constructor(
                 itemsEntity.catchPhrase,
                 itemsEntity.bs,
                 itemsEntity.lat,
-                itemsEntity.lng)
+                itemsEntity.lng,
+                !itemsEntity.favorite)
         }
     }
 
@@ -218,6 +223,12 @@ class ItemsRepositoryImpl @Inject constructor(
                     )
                 }
             }
+        }
+    }
+
+    override suspend fun updateFavorite(favorite: Boolean, id: Int) {
+        return withContext(Dispatchers.IO) {
+            itemsDao.updateFavorite(favorite, id)
         }
     }
 }

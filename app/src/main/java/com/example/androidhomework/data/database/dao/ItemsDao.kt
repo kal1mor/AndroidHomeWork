@@ -40,4 +40,7 @@ interface ItemsDao {
 
     @Query("SELECT * FROM HomeEntity")
     fun getHomeEntities(): Flow<List<HomeEntity>>
+
+    @Query("UPDATE ItemsEntity SET favorite=:favorite WHERE id =:id")
+    fun updateFavorite(favorite: Boolean, id: Int)
 }

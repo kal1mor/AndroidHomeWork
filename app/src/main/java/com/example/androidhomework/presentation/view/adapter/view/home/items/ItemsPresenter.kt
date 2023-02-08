@@ -78,4 +78,17 @@ class ItemsPresenter @Inject constructor(private val itemsInteractor: ItemsInter
         }
     }
 
+    fun updateFavorite(favorite: Boolean, id: Int){
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val job = launch {
+                    itemsInteractor.updateFavorite(favorite, id)
+                }
+                job.join()
+                job.cancel()
+            } catch (e: Exception){
+                Log.w("exception","updateFav FAILED")
+            }
+        }
+    }
 }

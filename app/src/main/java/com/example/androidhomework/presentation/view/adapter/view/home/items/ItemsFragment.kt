@@ -67,6 +67,10 @@ class ItemsFragment : Fragment(), ItemsListener, ItemsView {
         itemsPresenter.onDeleteClicked(id)
     }
 
+    override fun updateFavorite(favorite: Boolean, id: Int) {
+        itemsPresenter.updateFavorite(favorite, id)
+    }
+
     override fun dataReceived(list: List<ItemsModel>) {
         itemsAdapter.submitList(list)
     }

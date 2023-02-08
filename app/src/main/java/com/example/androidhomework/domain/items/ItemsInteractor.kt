@@ -40,4 +40,8 @@ class ItemsInteractor @Inject constructor(private val itemsRepository: ItemsRepo
     suspend fun getHomeItems(): Flow<List<HomeModel>>{
         return itemsRepository.getHomeItems()
     }
+
+    suspend fun updateFavorite(favorite: Boolean, id: Int){
+        return itemsRepository.updateFavorite(favorite, id)
+    }
 }

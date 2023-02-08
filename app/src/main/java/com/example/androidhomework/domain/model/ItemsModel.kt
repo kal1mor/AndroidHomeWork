@@ -15,5 +15,6 @@ data class ItemsModel (
     val catchPhrase: String,
     val bs: String,
     val lat: String,
-    val lng: String
+    val lng: String,
+    val favorite: Boolean
 )

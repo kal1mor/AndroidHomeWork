@@ -1,19 +1,19 @@
 package com.example.androidhomework.presentation.view.adapter.view.home.favorites
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.androidhomework.databinding.FragmentFavoritesBinding
 import com.example.androidhomework.di.FavoritesModel
 import com.example.androidhomework.presentation.view.adapter.view.home.favorites.adapter.FavoriteAdapter
 import com.example.androidhomework.presentation.view.adapter.view.home.favorites.adapter.FavoriteListener
-import dagger.hilt.android.AndroidEntryPoint
+import com.example.androidhomework.utils.App
 import javax.inject.Inject
 
-@AndroidEntryPoint
+
 class FavoritesFragment : Fragment(), FavoriteView, FavoriteListener {
 
     @Inject
@@ -35,6 +35,7 @@ class FavoritesFragment : Fragment(), FavoriteView, FavoriteListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (requireActivity().applicationContext as App).provideAppComponent().inject(this)
         favoritesPresenter.setView(this)
 
         favAdapter = FavoriteAdapter(this)

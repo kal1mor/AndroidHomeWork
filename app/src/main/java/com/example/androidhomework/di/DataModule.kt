@@ -11,13 +11,10 @@ import com.example.androidhomework.domain.items.ItemsRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
 @Module
-@InstallIn(SingletonComponent::class)
 abstract class DataModule {
 
     @Binds
@@ -28,27 +25,27 @@ abstract class DataModule {
         authRepositoryImpl: AuthRepositoryImpl
     ): AuthRepository
 
-    companion object{
+    companion object {
 
         private const val SP_KEY = "SP_KEY"
-        private const val BASE_URL ="https://jsonplaceholder.typicode.com"
+        private const val BASE_URL = "https://jsonplaceholder.typicode.com"
 
         @Provides
         fun provideSharedPreferences(
-            @ApplicationContext context: Context
-        ) : SharedPreferencesHelper{
+            context: Context
+        ): SharedPreferencesHelper {
             return SharedPreferencesHelper(
                 context.getSharedPreferences(SP_KEY, MODE_PRIVATE)
             )
         }
 
         @Provides
-        fun  provideApiService(retrofit: Retrofit): ApiService {
+        fun provideApiService(retrofit: Retrofit): ApiService {
             return retrofit.create(ApiService::class.java)
         }
 
         @Provides
-        fun provideRetrofitInstance(): Retrofit{
+        fun provideRetrofitInstance(): Retrofit {
             return Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())

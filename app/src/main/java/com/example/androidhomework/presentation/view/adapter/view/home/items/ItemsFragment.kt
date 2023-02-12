@@ -1,23 +1,21 @@
 package com.example.androidhomework.presentation.view.adapter.view.home.items
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.androidhomework.R
 import com.example.androidhomework.databinding.FragmentItemsBinding
 import com.example.androidhomework.domain.model.ItemsModel
-import com.example.androidhomework.presentation.view.adapter.view.home.items.adapter.ItemsListener
 import com.example.androidhomework.presentation.view.adapter.view.home.items.adapter.ItemsAdapter
+import com.example.androidhomework.presentation.view.adapter.view.home.items.adapter.ItemsListener
+import com.example.androidhomework.utils.App
 import com.example.androidhomework.utils.NavHelper.navigateWithBundle
-import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
-@AndroidEntryPoint
 class ItemsFragment : Fragment(), ItemsListener, ItemsView {
 
     @Inject
@@ -42,7 +40,7 @@ class ItemsFragment : Fragment(), ItemsListener, ItemsView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        (requireActivity().applicationContext as App).provideAppComponent().inject(this)
         itemsPresenter.setView(this)
         itemsAdapter = ItemsAdapter(this)
 

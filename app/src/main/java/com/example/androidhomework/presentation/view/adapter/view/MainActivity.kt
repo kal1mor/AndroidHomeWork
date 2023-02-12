@@ -1,10 +1,10 @@
 package com.example.androidhomework.presentation.view.adapter.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -12,12 +12,10 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.example.androidhomework.R
 import com.example.androidhomework.databinding.ActivityMainBinding
-import com.example.androidhomework.presentation.view.adapter.view.auth.login.LogInFragment
-import com.example.androidhomework.presentation.view.adapter.view.home.items.ItemsFragment
-import dagger.hilt.android.AndroidEntryPoint
+import com.example.androidhomework.utils.App
 import javax.inject.Inject
 
-@AndroidEntryPoint
+
 class MainActivity : AppCompatActivity(), MainView {
 
     private var _binding: ActivityMainBinding? = null
@@ -29,6 +27,7 @@ class MainActivity : AppCompatActivity(), MainView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (applicationContext as App).provideAppComponent().inject(this)
 
         _binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(R.layout.activity_main)

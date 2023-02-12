@@ -1,20 +1,20 @@
 package com.example.androidhomework.presentation.view.adapter.view.home.details
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.example.androidhomework.R
 import com.example.androidhomework.databinding.FragmentDetailsBinding
 import com.example.androidhomework.presentation.view.adapter.view.home.items.ItemsFragment.Companion.KEY_EMAIL
 import com.example.androidhomework.presentation.view.adapter.view.home.items.ItemsFragment.Companion.KEY_NAME
 import com.example.androidhomework.presentation.view.adapter.view.home.items.ItemsFragment.Companion.KEY_USERNAME
+import com.example.androidhomework.utils.App
 import com.example.androidhomework.utils.NavHelper.replaceGraph
-import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-@AndroidEntryPoint
+
 class DetailsFragment : Fragment(), DetailsView {
 
     @Inject
@@ -34,7 +34,7 @@ class DetailsFragment : Fragment(), DetailsView {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        (requireActivity().applicationContext as App).provideAppComponent().inject(this)
         detailsPresenter.setView(this)
 
         val bundle = arguments

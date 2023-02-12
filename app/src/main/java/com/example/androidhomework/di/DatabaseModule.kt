@@ -5,12 +5,9 @@ import com.example.androidhomework.data.database.dao.ItemsDao
 import com.example.androidhomework.data.database.dao.ItemsDatabase
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 
 
 @Module
-@InstallIn(SingletonComponent::class)
 class DatabaseModule {
 
     @Provides
@@ -18,7 +15,6 @@ class DatabaseModule {
         return itemsDatabase.getItemsDAO()
 
     }
-
 
     //Creating DataBase
     @Provides

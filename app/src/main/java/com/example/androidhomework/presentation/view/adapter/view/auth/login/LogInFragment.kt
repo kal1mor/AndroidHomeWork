@@ -1,23 +1,18 @@
 package com.example.androidhomework.presentation.view.adapter.view.auth.login
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.example.androidhomework.R
 import com.example.androidhomework.databinding.FragmentLogInBinding
-import com.example.androidhomework.presentation.view.adapter.view.home.onBoarding.OnBoardingFragment
-import com.example.androidhomework.presentation.view.adapter.view.home.items.ItemsFragment
-import com.example.androidhomework.utils.NavHelper.navigate
+import com.example.androidhomework.utils.App
 import com.example.androidhomework.utils.NavHelper.replaceGraph
-import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import kotlin.math.log
 
 
-@AndroidEntryPoint
 class LogInFragment : Fragment(), LoginView {
 
     @Inject
@@ -42,6 +37,7 @@ class LogInFragment : Fragment(), LoginView {
     ) {
 
         super.onViewCreated(view, savedInstanceState)
+        (requireActivity().applicationContext as App).provideAppComponent().inject(this)
 
         loginPresenter.setView(this)
 

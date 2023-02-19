@@ -1,7 +1,5 @@
 package com.example.androidhomework.data.model
 
-import com.google.gson.annotations.SerializedName
-
 data class ItemsResponse(
     val id: Int,
     val name: String,

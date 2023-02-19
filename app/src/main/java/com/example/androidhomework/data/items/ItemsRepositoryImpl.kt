@@ -1,5 +1,6 @@
 package com.example.androidhomework.data.items
 
+import android.annotation.SuppressLint
 import android.util.Log
 import com.example.androidhomework.data.database.FavoritesEntity
 import com.example.androidhomework.data.database.HomeEntity
@@ -10,6 +11,11 @@ import com.example.androidhomework.di.FavoritesModel
 import com.example.androidhomework.domain.items.ItemsRepository
 import com.example.androidhomework.domain.model.HomeModel
 import com.example.androidhomework.domain.model.ItemsModel
+import io.reactivex.Completable
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -19,75 +25,112 @@ import javax.inject.Inject
 class ItemsRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
     private val itemsDao: ItemsDao
-): ItemsRepository {
-    override suspend fun getData() {
-        return withContext(Dispatchers.IO) {
+) : ItemsRepository {
 
-            if (!itemsDao.doesItemsEntityExist()){
-                Log.w("getData", "data not exists")
-                val response = apiService.getData()
+    private val compositeDisposable = CompositeDisposable()
 
-                response.body()?.let {
-                    it.map {
-                        val itemsEntity = ItemsEntity(it.id,
-                            it.name,
-                            it.username,
-                            it.email,
-                            it.phone,
-                            it.website,
-                            it.address.street,
-                            it.address.suite,
-                            it.address.city,
-                            it.address.zipcode,
-                            it.company.name,
-                            it.company.catchPhrase,
-                            it.company.bs,
-                            it.address.geo.lat,
-                            it.address.geo.lng,
-                            !it.favorite)
-                        itemsDao.insertItemsEntity(itemsEntity)
-                    }
+    @SuppressLint("CheckResult")
+    override fun getData(): Completable {
+
+        return itemsDao.doesItemsEntityExist()
+            .subscribeOn(Schedulers.io())
+            .doAfterNext {
+                if (!it) {
+                    val response = apiService.getData()
+                    val getData = response.subscribeOn(Schedulers.io())
+                        .doAfterSuccess {
+                            .forEach {
+                            val itemsEntity =
+                                ItemsEntity(
+                                    it.id,
+                                    it.name,
+                                    it.username,
+                                    it.email,
+                                    it.phone,
+                                    it.website,
+                                    it.address.street,
+                                    it.address.suite,
+                                    it.address.city,
+                                    it.address.zipcode,
+                                    it.company.name,
+                                    it.company.catchPhrase,
+                                    it.company.bs,
+                                    it.address.geo.lat,
+                                    it.address.geo.lng,
+                                    it.favorite
+                                )
+                            itemsDao.insertItemsEntity(itemsEntity)
+
+                            }
+                        }
+                        .doOnError {
+                            Log.w("error", "when making request")
+                        }
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe()
+                    compositeDisposable.add(getData)
+
                 }
             }
-        }
+            .doOnComplete {
+                compositeDisposable.dispose()
+            }
+            .ignoreElements()
+            .observeOn(AndroidSchedulers.mainThread())
     }
 
-    override suspend fun getHomeData() {
-        return withContext(Dispatchers.IO) {
+    @SuppressLint("CheckResult")
+    override fun getHomeData(): Completable {
+        return itemsDao.doesItemsEntityExist()
+            .subscribeOn(Schedulers.io())
+            .doAfterNext {
+                if (!it) {
+                    val response = apiService.getData()
+                    val getData = response.subscribeOn(Schedulers.io())
+                        .doAfterSuccess {
+                            .forEach {
+                            val homeEntity =
+                                HomeEntity(
+                                    it.id,
+                                    it.name,
+                                    it.username,
+                                    it.email,
+                                    it.phone,
+                                    it.website,
+                                    it.address.street,
+                                    it.address.suite,
+                                    it.address.city,
+                                    it.address.zipcode,
+                                    it.company.name,
+                                    it.company.catchPhrase,
+                                    it.company.bs,
+                                    it.address.geo.lat,
+                                    it.address.geo.lng
+                                )
+                            itemsDao.insertHomeEntity(homeEntity)
+                            }
+                        }
+                        .doOnError {
+                            Log.w("error", "when making request")
+                        }
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe()
+                    compositeDisposable.add(getData)
 
-            if (!itemsDao.doesItemsEntityExist()){
-                Log.w("getData", "data not exists")
-                val response = apiService.getData()
-
-                response.body()?.let {
-                    it.map {
-                        val homeEntity = HomeEntity(it.id,
-                            it.name,
-                            it.username,
-                            it.email,
-                            it.phone,
-                            it.website,
-                            it.address.street,
-                            it.address.suite,
-                            it.address.city,
-                            it.address.zipcode,
-                            it.company.name,
-                            it.company.catchPhrase,
-                            it.company.bs,
-                            it.address.geo.lat,
-                            it.address.geo.lng)
-                        itemsDao.insertHomeEntity(homeEntity)
-                    }
                 }
             }
-        }
+            .doOnComplete {
+                compositeDisposable.dispose()
+            }
+            .ignoreElements()
+            .observeOn(AndroidSchedulers.mainThread())
     }
 
-    override suspend fun showData(): Flow<List<ItemsModel>> {
-        return withContext(Dispatchers.IO) {
+    override fun showData(): Observable<List<ItemsModel>> {
         val itemsEntity = itemsDao.getItemsEntities()
-            itemsEntity.map { itemsList ->
-                itemsList.map { item ->
+        return itemsEntity.subscribeOn(Schedulers.io())
+            .map {
+                it.map { item ->
                     ItemsModel(
                         item.id,
                         item.name,
@@ -108,11 +151,11 @@ class ItemsRepositoryImpl @Inject constructor(
                     )
                 }
             }
-        }
+            .observeOn(AndroidSchedulers.mainThread())
     }
 
     override suspend fun favClicked(itemsModel: ItemsModel) {
-        return withContext(Dispatchers.IO){
+        return withContext(Dispatchers.IO) {
             itemsDao.insetFavoritesEntity(
                 FavoritesEntity(
                     itemsModel.id,
@@ -137,7 +180,7 @@ class ItemsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteItemById(id: Int) {
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             itemsDao.deleteItemEntityById(id)
         }
     }
@@ -146,7 +189,7 @@ class ItemsRepositoryImpl @Inject constructor(
     override suspend fun getFavorites(): Flow<List<FavoritesModel>> {
         return withContext(Dispatchers.IO) {
             val favoritesEntity = itemsDao.getFavoritesEntities()
-            favoritesEntity.map{ favList ->
+            favoritesEntity.map { favList ->
                 favList.map { favItem ->
                     FavoritesModel(
                         favItem.id,
@@ -172,9 +215,10 @@ class ItemsRepositoryImpl @Inject constructor(
     }
 
     override suspend fun findItemById(id: Int): ItemsModel {
-        return withContext(Dispatchers.IO){
+        return withContext(Dispatchers.IO) {
             val itemsEntity = itemsDao.findItemEntityById(id)
-            ItemsModel(itemsEntity.id,
+            ItemsModel(
+                itemsEntity.id,
                 itemsEntity.name,
                 itemsEntity.username,
                 itemsEntity.email,
@@ -189,12 +233,13 @@ class ItemsRepositoryImpl @Inject constructor(
                 itemsEntity.bs,
                 itemsEntity.lat,
                 itemsEntity.lng,
-                !itemsEntity.favorite)
+                !itemsEntity.favorite
+            )
         }
     }
 
     override suspend fun deleteFavById(id: Int) {
-        withContext(Dispatchers.IO){
+        withContext(Dispatchers.IO) {
             itemsDao.deleteFavEntityById(id)
         }
     }
@@ -202,7 +247,7 @@ class ItemsRepositoryImpl @Inject constructor(
     override suspend fun getHomeItems(): Flow<List<HomeModel>> {
         return withContext(Dispatchers.IO) {
             val homeEntity = itemsDao.getHomeEntities()
-            homeEntity.map{ favList ->
+            homeEntity.map { favList ->
                 favList.map { favItem ->
                     HomeModel(
                         favItem.id,

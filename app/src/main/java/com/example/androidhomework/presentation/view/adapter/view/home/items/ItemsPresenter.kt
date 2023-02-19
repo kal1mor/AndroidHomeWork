@@ -3,6 +3,7 @@ package com.example.androidhomework.presentation.view.adapter.view.home.items
 import android.util.Log
 import com.example.androidhomework.R
 import com.example.androidhomework.domain.items.ItemsInteractor
+import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
@@ -14,35 +15,26 @@ class ItemsPresenter @Inject constructor(private val itemsInteractor: ItemsInter
 
     private lateinit var itemsView: ItemsView
 
+    private val compositeDisposable = CompositeDisposable()
+
     fun setView(context: ItemsView) {
         itemsView = context
     }
 
     fun getData() {
-        CoroutineScope(Dispatchers.Main).launch {
-            val jobShowData = launch {
-                try {
-                    val listItems = itemsInteractor.showData()
-                        listItems.collect{
-                            itemsView.dataReceived(it)
-                    }
-                }catch (e: Exception) {
-                    Log.w("exception", "data not found")
-                }
-            }
+        val getData = itemsInteractor.getData().subscribe({
 
-            val job = launch {
-                try {
-                    itemsInteractor.getData()
-                } catch (e: Exception) {
-                    Log.w("exception", "data not found")
-                }
-            }
-            jobShowData.join()
-            job.join()
-            jobShowData.cancel()
-            job.cancel()
-        }
+        },{
+
+        })
+        compositeDisposable.add(getData)
+
+        val showData = itemsInteractor.showData().subscribe({
+            itemsView.dataReceived(it)
+        },{
+
+        })
+        compositeDisposable.add(showData)
     }
 
     fun elementSelected(name: String, username: String, email: String){
